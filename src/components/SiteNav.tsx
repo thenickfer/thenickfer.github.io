@@ -1,10 +1,23 @@
 import { StarMark } from './StarMark'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLenis } from 'lenis/react'
 
-const futureRoutes = ['About', 'Research', 'Projects', 'Experience', 'Contact']
+const navigation = [
+  { label: 'Home', href: '#/' },
+  { label: 'Work', href: '#work' },
+  { label: 'Contact', href: '#contact' },
+]
 
 export function SiteNav() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const lenis = useLenis()
+
+  useEffect(() => {
+    if (!lenis) return
+    if (menuOpen) lenis.stop()
+    else lenis.start()
+    return () => lenis.start()
+  }, [lenis, menuOpen])
 
   return (
     <nav aria-label="Primary navigation" className="site-nav content-wrap">
@@ -13,11 +26,8 @@ export function SiteNav() {
         <span>NCF / portfolio</span>
       </a>
       <div className="site-nav-links">
-        <a className="font-mono text-xs uppercase tracking-[0.14em] text-accent" href="#/">Home</a>
-        {futureRoutes.map((route) => (
-          <span key={route} aria-disabled="true" className="font-mono text-xs uppercase tracking-[0.14em] text-text-secondary/60">
-            {route}
-          </span>
+        {navigation.map((item) => (
+          <a key={item.label} className="font-mono text-xs uppercase tracking-[0.14em] text-accent" href={item.href}>{item.label}</a>
         ))}
       </div>
       <button
@@ -31,10 +41,9 @@ export function SiteNav() {
         <span aria-hidden="true">{menuOpen ? '×' : 'Menu'}</span>
       </button>
       {menuOpen ? (
-        <div id="mobile-navigation" className="site-nav-sheet">
-          <a href="#/" onClick={() => setMenuOpen(false)}>Home</a>
-          {futureRoutes.map((route) => (
-            <a key={route} href={`#/${route.toLowerCase()}`} onClick={() => setMenuOpen(false)}>{route}</a>
+        <div id="mobile-navigation" className="site-nav-sheet" data-lenis-prevent>
+          {navigation.map((item) => (
+            <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>
           ))}
         </div>
       ) : null}

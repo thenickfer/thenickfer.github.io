@@ -11,26 +11,22 @@ const THERMAL_TOKENS = [
 ]
 
 function useShaderEnvironment() {
-  const [environment, setEnvironment] = useState({ reducedMotion: false, smallScreen: false, webgl: false })
+  const [environment, setEnvironment] = useState({ reducedMotion: false, webgl: false })
 
   useEffect(() => {
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const smallScreenQuery = window.matchMedia('(max-width: 639px)')
     const canvas = document.createElement('canvas')
     const webgl = Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'))
     const update = () =>
       setEnvironment({
         reducedMotion: reducedMotionQuery.matches,
-        smallScreen: smallScreenQuery.matches,
         webgl,
       })
 
     update()
     reducedMotionQuery.addEventListener('change', update)
-    smallScreenQuery.addEventListener('change', update)
     return () => {
       reducedMotionQuery.removeEventListener('change', update)
-      smallScreenQuery.removeEventListener('change', update)
     }
   }, [])
 
@@ -80,18 +76,33 @@ export function GrainGradientBackground() {
     return () => observer.disconnect()
   }, [])
 
-  const canRenderShader = nearViewport && environment.webgl && !environment.reducedMotion && !environment.smallScreen && colors
+  const branch = !environment.webgl
+    ? 'fallback: no WebGL context'
+    : environment.reducedMotion
+      ? 'fallback: prefers-reduced-motion'
+      : !nearViewport
+        ? 'fallback: outside viewport'
+        : !colors
+          ? 'fallback: shader colors unavailable'
+          : 'animated GrainGradient shader'
+  const canRenderShader = nearViewport && environment.webgl && !environment.reducedMotion && Boolean(colors)
+
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      console.info(`[Cobalt shader] hero gradient branch: ${branch}`)
+    }
+  }, [branch])
 
   return (
     <div ref={containerRef} className="hero-gradient" aria-hidden="true">
       <ThermalGradientFallback />
-      {canRenderShader ? (
+      {canRenderShader && colors ? (
         <GrainGradient
           className="hero-gradient-live"
           colorBack={colors[0]}
           colors={colors}
           intensity={0.28}
-          maxPixelCount={1_500_000}
+          maxPixelCount={Math.ceil(window.innerWidth * window.innerHeight * 2.25)}
           minPixelRatio={1}
           noise={0.24}
           shape="wave"

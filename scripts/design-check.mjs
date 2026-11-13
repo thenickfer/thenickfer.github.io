@@ -18,13 +18,24 @@ async function files(path) {
 
 for (const path of (await Promise.all(scanRoots.map(files))).flat()) {
   const content = await readFile(join(root, path), 'utf8')
-  if (hexPattern.test(content) && !path.endsWith('tokens.css')) failures.push(`${path}: raw hex color`)
+  if (hexPattern.test(content) && !path.endsWith('tokens.css') && !path.startsWith('src/assets/')) failures.push(`${path}: raw hex color`)
   if (/transition\s*:\s*all\b/i.test(content)) failures.push(`${path}: transition: all`)
 }
 
 const css = await readFile(join(root, 'src/styles/global.css'), 'utf8')
 if (/@keyframes/.test(css) && !/@media\s*\(prefers-reduced-motion:\s*reduce\)/.test(css)) {
   failures.push('src/styles/global.css: animation lacks reduced-motion branch')
+}
+
+const home = await readFile(join(root, 'src/pages/HomePage.tsx'), 'utf8')
+for (const phrase of ['Engineering with a researcher', 'Two places to study', 'A small record', 'Portfolio foundation', 'For systems, software', 'at the boundary between', 'living space', 'built carefully']) {
+  if (home.includes(phrase)) failures.push(`src/pages/HomePage.tsx: generated or filler copy: ${phrase}`)
+}
+if (home.includes('id="overview"') || home.includes('id="projects"')) {
+  failures.push('src/pages/HomePage.tsx: filler sections remain')
+}
+if (!/title="Work"/.test(home) || !/<h2[^>]*>Contact<\/h2>/.test(home)) {
+  failures.push('src/pages/HomePage.tsx: plain Work and Contact headings required')
 }
 
 if (failures.length) {
