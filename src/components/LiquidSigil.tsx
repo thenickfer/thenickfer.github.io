@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 
 import maskUrl from '../assets/liquid-sigil-mask.svg'
+import fallbackUrl from '../assets/star-sigil-fallback.svg'
 
 const LIQUID_SIGIL_START_VALUES = {
   colorBackToken: '--ds-color-transparent',
@@ -27,26 +28,22 @@ type LiquidSigilProps = {
 }
 
 function useShaderEnvironment() {
-  const [environment, setEnvironment] = useState({ reducedMotion: false, smallScreen: false, webgl: false })
+  const [environment, setEnvironment] = useState({ reducedMotion: false, webgl: false })
 
   useEffect(() => {
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const smallScreenQuery = window.matchMedia('(max-width: 639px)')
     const canvas = document.createElement('canvas')
     const webgl = Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'))
     const update = () =>
       setEnvironment({
         reducedMotion: reducedMotionQuery.matches,
-        smallScreen: smallScreenQuery.matches,
         webgl,
       })
 
     update()
     reducedMotionQuery.addEventListener('change', update)
-    smallScreenQuery.addEventListener('change', update)
     return () => {
       reducedMotionQuery.removeEventListener('change', update)
-      smallScreenQuery.removeEventListener('change', update)
     }
   }, [])
 
@@ -76,23 +73,11 @@ function resolveToken(token: string) {
 
 function IridescentFallback({ decorative, label }: Pick<LiquidSigilProps, 'decorative' | 'label'>) {
   return (
-    <svg
-      aria-hidden={decorative}
-      aria-label={decorative ? undefined : label}
+    <img
+      alt={decorative ? '' : label}
       className="liquid-sigil-fallback"
-      role={decorative ? undefined : 'img'}
-      viewBox="0 0 100 100"
-    >
-      <defs>
-        <linearGradient id="liquid-sigil-iridescence" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="var(--ds-color-iridescent-cyan)" />
-          <stop offset="35%" stopColor="var(--ds-color-iridescent-violet)" />
-          <stop offset="68%" stopColor="var(--ds-color-iridescent-pink)" />
-          <stop offset="100%" stopColor="var(--ds-color-iridescent-yellow)" />
-        </linearGradient>
-      </defs>
-      <path d="M50 4 59 39 96 50 59 61 50 96 41 61 4 50 41 39 50 4Z" fill="url(#liquid-sigil-iridescence)" />
-    </svg>
+      src={fallbackUrl}
+    />
   )
 }
 
@@ -100,6 +85,7 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
   const containerRef = useRef<HTMLDivElement>(null)
   const nearViewport = useNearViewport(containerRef)
   const environment = useShaderEnvironment()
+  const [maskLoaded, setMaskLoaded] = useState(false)
   const [colors] = useState<{ colorBack: string; colorTint: string } | undefined>(() => {
     if (typeof document === 'undefined') return undefined
     return {
@@ -108,7 +94,29 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
     }
   })
   const clampedSize = Math.min(Math.max(size, 96), 480)
-  const canRenderShader = nearViewport && environment.webgl && !environment.reducedMotion && !environment.smallScreen
+  useEffect(() => {
+    const image = new Image()
+    image.onload = () => setMaskLoaded(true)
+    image.onerror = () => setMaskLoaded(false)
+    image.src = maskUrl
+  }, [])
+
+  const branch = !environment.webgl
+    ? 'fallback: no WebGL context'
+    : environment.reducedMotion
+      ? 'fallback: prefers-reduced-motion'
+      : !maskLoaded
+        ? 'fallback: sigil mask failed to load'
+        : !nearViewport
+          ? 'fallback: outside viewport'
+          : 'animated LiquidMetal shader'
+  const canRenderShader = nearViewport && environment.webgl && !environment.reducedMotion && maskLoaded
+
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      console.info(`[Cobalt shader] liquid sigil branch: ${branch}`)
+    }
+  }, [branch])
 
   return (
     <div
@@ -128,8 +136,8 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
           distortion={LIQUID_SIGIL_START_VALUES.distortion}
           fit={LIQUID_SIGIL_START_VALUES.fit}
           image={maskUrl}
-          maxPixelCount={1_000_000}
-          minPixelRatio={1.5}
+          maxPixelCount={Math.ceil(clampedSize * clampedSize * 2.25)}
+          minPixelRatio={1}
           repetition={LIQUID_SIGIL_START_VALUES.repetition}
           scale={LIQUID_SIGIL_START_VALUES.scale}
           shiftBlue={LIQUID_SIGIL_START_VALUES.shiftBlue}

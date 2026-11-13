@@ -14,6 +14,7 @@
   --color-surface: var(--ds-color-surface);
   --color-text-primary: var(--ds-color-text-primary);
   --color-text-secondary: var(--ds-color-text-secondary);
+  --color-ink: var(--ds-color-ink);
   --color-accent: var(--ds-color-accent);
   --color-cobalt: var(--ds-color-cobalt);
   --color-cobalt-deep: var(--ds-color-cobalt-deep);
@@ -236,10 +237,12 @@
 
   @media (max-width: 639px) {
     .hero-sigil {
-      right: 1rem;
-      top: 1.5rem;
-      transform: scale(0.55);
-      transform-origin: top right;
+      right: 0.75rem;
+      top: clamp(5.5rem, 17svh, 7rem);
+      width: min(32svh, 52vw, 240px) !important;
+      height: min(32svh, 52vw, 240px) !important;
+      transform: none;
+      transform-origin: center;
     }
   }
 

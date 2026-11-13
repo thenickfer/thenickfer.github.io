@@ -1,16 +1,9 @@
-import type { MouseEvent } from 'react'
-
 import { GrainGradientBackground } from '../components/GrainGradientBackground'
 import { LiquidSigil } from '../components/LiquidSigil'
 import { SectionHeading } from '../components/SectionHeading'
 import { SiteNav } from '../components/SiteNav'
 
 function HomePage() {
-  const scrollToWork = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault()
-    document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
     <div className="page-grid min-h-dvh">
       <main>
@@ -28,10 +21,10 @@ function HomePage() {
                 Costa Ferreira
               </h1>
               <p className="motion-enter motion-enter-delay-1 mt-8 max-w-xl text-lg leading-relaxed text-text-primary/90 sm:text-xl">
-                I work between software engineering, dependable systems, and research — building a clearer understanding of how technical systems behave.
+                I build software and study reliable systems at PUCRS.
               </p>
               <div className="motion-enter motion-enter-delay-2 mt-6 flex flex-wrap gap-3 sm:mt-8">
-                <a className="action-primary rounded-md bg-accent px-5 py-3 font-medium text-surface-sunk transition-transform duration-100 active:scale-[0.97]" href="#/" onClick={scrollToWork}>
+                <a className="action-primary rounded-md bg-accent px-5 py-3 font-medium text-ink transition-transform duration-100 active:scale-[0.97]" href="#work">
                   Current work
                 </a>
                 <a className="action-secondary rounded-md border border-text-primary/30 px-5 py-3 font-medium text-text-primary transition-colors duration-100" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
@@ -42,43 +35,26 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="overview" className="content-wrap grid gap-8 border-t border-border py-20 sm:grid-cols-[0.8fr_1.2fr] sm:py-28">
-          <SectionHeading eyebrow="01 / overview" title="Engineering with a researcher's attention to failure." />
-          <div className="space-y-5 text-lg leading-relaxed text-text-secondary">
-            <p>I am a Computer Science undergraduate interested in the boundary between software and the systems that make it dependable.</p>
-            <p>That means moving from implementation details to infrastructure, embedded behavior, and the methods we use to understand errors before they become incidents.</p>
-          </div>
-        </section>
-
         <section id="work" className="content-wrap border-t border-border py-20 sm:py-28">
-          <SectionHeading eyebrow="02 / work" title="Two places to study systems from different angles." />
+          <SectionHeading title="Work" />
           <div className="grid gap-4 md:grid-cols-2">
             <article className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-              <p className="mb-8 font-mono text-xs uppercase tracking-[0.16em] text-accent">Professional · current</p>
+              <p className="mb-8 font-mono text-xs uppercase tracking-[0.16em] text-accent">LiS · PUCRS / HP</p>
               <h3 className="text-3xl font-semibold text-text-primary">LiS</h3>
-              <p className="mt-4 leading-relaxed text-text-secondary">AI and software R&amp;D at LiS, within the PUCRS / HP context.</p>
+              <p className="mt-4 leading-relaxed text-text-secondary">I work on AI and software R&amp;D at LiS within PUCRS / HP.</p>
             </article>
             <article className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-              <p className="mb-8 font-mono text-xs uppercase tracking-[0.16em] text-accent">Research · current</p>
+              <p className="mb-8 font-mono text-xs uppercase tracking-[0.16em] text-accent">NSESD · PUCRS</p>
               <h3 className="text-3xl font-semibold text-text-primary">NSESD</h3>
-              <p className="mt-4 leading-relaxed text-text-secondary">Research at PUCRS in systems reliability, embedded systems, and error-correction codes.</p>
+              <p className="mt-4 leading-relaxed text-text-secondary">I research systems reliability, embedded systems, and error-correction codes at PUCRS.</p>
             </article>
           </div>
-        </section>
-
-        <section id="projects" className="content-wrap border-t border-border py-20 sm:py-28">
-          <SectionHeading eyebrow="03 / selected work" title="A small record, built carefully." />
-          <article className="max-w-3xl border-l-2 border-accent pl-5 sm:pl-8">
-            <p className="font-mono text-xs uppercase tracking-[0.16em] text-text-secondary">In progress · this site</p>
-            <h3 className="mt-3 text-3xl font-semibold text-text-primary">Portfolio foundation</h3>
-            <p className="mt-4 max-w-2xl leading-relaxed text-text-secondary">A living space for the technical work, research context, and writing that will be added here over time.</p>
-          </article>
         </section>
 
         <section id="contact" className="content-wrap border-t border-border py-20 sm:py-28">
           <div className="rounded-lg bg-surface-sunk p-6 sm:p-10">
-            <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-accent">04 / contact</p>
-            <h2 className="max-w-2xl text-4xl font-semibold leading-tight text-text-primary sm:text-5xl">For systems, software, and research conversations.</h2>
+            <h2 className="max-w-2xl text-4xl font-semibold leading-tight text-text-primary sm:text-5xl">Contact</h2>
+            <p className="mt-4 max-w-2xl leading-relaxed text-text-secondary">Contact me through GitHub about systems, software, or research.</p>
             <a className="contact-link mt-8 inline-flex items-center gap-2 font-mono text-sm uppercase tracking-[0.12em] text-accent underline decoration-accent/40 underline-offset-8" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
               GitHub / thenickfer <span aria-hidden="true">↗</span>
             </a>
