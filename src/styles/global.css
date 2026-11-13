@@ -68,6 +68,7 @@
   body,
   #root {
     min-height: 100%;
+    overflow-x: clip;
   }
 
   html {
@@ -130,6 +131,7 @@
     isolation: isolate;
     overflow: hidden;
     background: var(--ds-color-surface-sunk);
+    min-height: 100svh;
   }
 
   .hero-shell > .hero-gradient,
@@ -182,18 +184,35 @@
   .hero-content {
     position: relative;
     z-index: 1;
+    display: flex;
+    min-height: 100svh;
+    align-items: center;
+    padding-block: clamp(4.5rem, 9svh, 6rem) clamp(1.5rem, 4svh, 2.5rem);
   }
 
   .hero-sigil {
     position: absolute;
-    right: 4%;
-    top: 8%;
+    right: clamp(1rem, 7vw, 8rem);
+    top: 50%;
+    width: min(40svh, 60vw, 480px) !important;
+    height: min(40svh, 60vw, 480px) !important;
+    min-width: 96px;
+    min-height: 96px;
     z-index: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
   }
 
   .liquid-sigil {
     position: relative;
     flex: 0 0 auto;
+    background: transparent;
+    filter: none;
+    mix-blend-mode: normal;
+  }
+
+  .hero-sigil.liquid-sigil {
+    position: absolute;
   }
 
   .liquid-sigil-fallback,
@@ -295,13 +314,13 @@
   }
 
   .content-wrap {
-    width: min(100% - 2rem, var(--ds-content-max-width));
+    width: min(calc(100% - 2rem), var(--ds-content-max-width));
     margin-inline: auto;
   }
 
   .hero-title {
     font-family: var(--ds-font-family-display);
-    font-size: var(--ds-font-size-display);
+    font-size: clamp(3rem, 7vw, 6.5rem);
     font-stretch: 90%;
     font-style: oblique -5deg;
     font-weight: 600;
@@ -310,9 +329,130 @@
     font-variation-settings: 'wdth' 90, 'wght' 600, 'SRFF' 90;
   }
 
+  .site-nav {
+    position: absolute;
+    inset: env(safe-area-inset-top) 0 auto;
+    z-index: 3;
+    display: flex;
+    min-height: 4rem;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.75rem;
+  }
+
+  .site-nav > a,
+  .site-nav-links a,
+  .contact-link {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .site-nav-links {
+    display: none;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .site-nav-menu-button {
+    display: inline-flex;
+    min-width: 5rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ds-color-border);
+    border-radius: var(--ds-radius-md);
+    background: rgb(20 22 26 / 0.9);
+    color: var(--ds-color-text-primary);
+    font-family: var(--ds-font-family-mono);
+    font-size: var(--ds-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .site-nav-sheet {
+    position: absolute;
+    inset: calc(100% + 0.5rem) 0 auto;
+    display: grid;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--ds-color-border);
+    border-radius: var(--ds-radius-md);
+    background: rgb(20 22 26 / 0.96);
+    box-shadow: var(--ds-shadow-md);
+  }
+
+  .site-nav-sheet a {
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+    padding-inline: 0.75rem;
+    color: var(--ds-color-text-primary);
+    font-family: var(--ds-font-family-mono);
+    font-size: var(--ds-font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-copy {
+    width: min(100%, 48rem);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .action-primary:hover {
+      transform: translateY(-0.125rem);
+    }
+
+    .action-secondary:hover {
+      border-color: var(--ds-color-accent);
+      color: var(--ds-color-accent);
+    }
+  }
+
+  @media (min-width: 480px) {
+    .content-wrap {
+      width: min(calc(100% - 3rem), var(--ds-content-max-width));
+    }
+  }
+
   @media (min-width: 768px) {
     .content-wrap {
       width: min(100% - 4rem, var(--ds-content-max-width));
+    }
+
+    .site-nav-links {
+      display: flex;
+    }
+
+    .site-nav-menu-button {
+      display: none;
+    }
+  }
+
+  @media (max-height: 499px) {
+    .hero-content {
+      align-items: flex-start;
+      padding-block: 4.5rem 1rem;
+    }
+
+    .hero-sigil {
+      display: none;
+    }
+
+    .hero-copy {
+      max-width: 42rem;
+    }
+
+    .hero-copy > p:nth-of-type(2) {
+      display: none;
+    }
+
+    .hero-copy .hero-title {
+      font-size: clamp(2.75rem, 9vw, 5rem);
+    }
+
+    .hero-copy .motion-enter-delay-2 {
+      margin-top: 1rem;
     }
   }
 

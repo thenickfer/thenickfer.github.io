@@ -16,6 +16,7 @@
   --ds-color-iridescent-pink: #f2a6d0;
   --ds-color-iridescent-yellow: #f4e3a1;
   --ds-color-border: rgb(236 232 221 / 0.14);
+  --ds-color-transparent: #00000000;
 
   /* Typography */
   --ds-font-family-primary: 'Founders Grotesk Text', 'Founders Grotesk', Arial, sans-serif;
