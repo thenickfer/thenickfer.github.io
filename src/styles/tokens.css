@@ -1,65 +1,88 @@
 :root {
   /* Colors */
-  --ds-color-background: /* TODO */ transparent;
-  --ds-color-surface: /* TODO */ transparent;
-  --ds-color-text-primary: /* TODO */ currentColor;
-  --ds-color-text-secondary: /* TODO */ currentColor;
-  --ds-color-accent: /* TODO */ currentColor;
-  --ds-color-border: /* TODO */ transparent;
+  --ds-color-background: #14161a;
+  --ds-color-surface: #1b1e24;
+  --ds-color-surface-sunk: #0e1013;
+  --ds-color-text-primary: #ece8dd;
+  --ds-color-text-secondary: #93968d;
+  --ds-color-accent: #8db9e8;
+  --ds-color-cobalt: #2d7fd0;
+  --ds-color-cobalt-deep: #24445f;
+  --ds-color-thermal-violet: #8e7cc3;
+  --ds-color-oxide: #e97d4a;
+  --ds-color-thermal-hot: #f7d9a8;
+  --ds-color-iridescent-cyan: #9fe3f0;
+  --ds-color-iridescent-violet: #b9a6f0;
+  --ds-color-iridescent-pink: #f2a6d0;
+  --ds-color-iridescent-yellow: #f4e3a1;
+  --ds-color-border: rgb(236 232 221 / 0.14);
 
   /* Typography */
-  --ds-font-family-primary: /* TODO */ sans-serif;
-  --ds-font-family-mono: /* TODO */ monospace;
+  --ds-font-family-primary: 'Founders Grotesk Text', 'Founders Grotesk', Arial, sans-serif;
+  --ds-font-family-mono: 'Paper Mono', 'Berkeley Mono', ui-monospace, monospace;
+  --ds-font-family-display: 'ABC Arizona', Canela, 'Instrument Serif', Georgia, serif;
+  --ds-font-family-editorial: Newsreader, Georgia, serif;
+  --ds-font-family-pixel: Silkscreen, 'Press Start 2P', monospace;
 
   /* Font sizes */
-  --ds-font-size-xs: /* TODO */ 0.75rem;
-  --ds-font-size-sm: /* TODO */ 0.875rem;
-  --ds-font-size-md: /* TODO */ 1rem;
-  --ds-font-size-lg: /* TODO */ 1.125rem;
-  --ds-font-size-xl: /* TODO */ 1.25rem;
+  --ds-font-size-xs: 0.75rem;
+  --ds-font-size-sm: 0.875rem;
+  --ds-font-size-md: 1rem;
+  --ds-font-size-lg: 1.125rem;
+  --ds-font-size-xl: 1.25rem;
+  --ds-font-size-display: clamp(3.5rem, 11vw, 8rem);
 
   /* Font weights */
-  --ds-font-weight-regular: /* TODO */ 400;
-  --ds-font-weight-medium: /* TODO */ 500;
-  --ds-font-weight-semibold: /* TODO */ 600;
+  --ds-font-weight-regular: 400;
+  --ds-font-weight-medium: 500;
+  --ds-font-weight-semibold: 600;
 
   /* Line heights */
-  --ds-line-height-tight: /* TODO */ 1.25;
-  --ds-line-height-normal: /* TODO */ 1.5;
-  --ds-line-height-relaxed: /* TODO */ 1.625;
+  --ds-line-height-tight: 1.08;
+  --ds-line-height-normal: 1.55;
+  --ds-line-height-relaxed: 1.65;
 
   /* Spacing */
-  --ds-spacing-1: /* TODO */ 0.25rem;
-  --ds-spacing-2: /* TODO */ 0.5rem;
-  --ds-spacing-3: /* TODO */ 0.75rem;
-  --ds-spacing-4: /* TODO */ 1rem;
-  --ds-spacing-6: /* TODO */ 1.5rem;
-  --ds-spacing-8: /* TODO */ 2rem;
+  --ds-spacing-1: 0.25rem;
+  --ds-spacing-2: 0.5rem;
+  --ds-spacing-3: 0.75rem;
+  --ds-spacing-4: 1rem;
+  --ds-spacing-6: 1.5rem;
+  --ds-spacing-8: 2rem;
+  --ds-spacing-12: 3rem;
+  --ds-spacing-16: 4rem;
+  --ds-spacing-24: 6rem;
+  --ds-spacing-32: 8rem;
+  --ds-spacing-48: 12rem;
+  --ds-spacing-64: 16rem;
+  --ds-spacing-96: 24rem;
 
   /* Border radii */
-  --ds-radius-sm: /* TODO */ 0.25rem;
-  --ds-radius-md: /* TODO */ 0.5rem;
-  --ds-radius-lg: /* TODO */ 0.75rem;
+  --ds-radius-sm: 0.25rem;
+  --ds-radius-md: 0.5rem;
+  --ds-radius-lg: 1rem;
 
   /* Border widths */
-  --ds-border-width-default: /* TODO */ 1px;
-  --ds-border-width-strong: /* TODO */ 2px;
+  --ds-border-width-default: 1px;
+  --ds-border-width-strong: 2px;
 
   /* Shadows */
-  --ds-shadow-sm: /* TODO */ 0 1px 2px rgb(0 0 0 / 0.05);
-  --ds-shadow-md: /* TODO */ 0 4px 6px rgb(0 0 0 / 0.1);
+  --ds-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.2);
+  --ds-shadow-md: 0 16px 40px rgb(0 0 0 / 0.24);
 
   /* Layout dimensions */
-  --ds-content-max-width: /* TODO */ 80rem;
+  --ds-content-max-width: 76rem;
 
   /* Transitions */
-  --ds-transition-duration-fast: /* TODO */ 150ms;
-  --ds-transition-duration-base: /* TODO */ 200ms;
-  --ds-transition-easing-standard: /* TODO */ ease;
+  --ds-transition-duration-fast: 90ms;
+  --ds-transition-duration-base: 160ms;
+  --ds-transition-duration-slow: 280ms;
+  --ds-transition-duration-hero: 480ms;
+  --ds-transition-easing-standard: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* Z-index levels */
-  --ds-z-index-base: /* TODO */ 0;
-  --ds-z-index-dropdown: /* TODO */ 1000;
-  --ds-z-index-overlay: /* TODO */ 1100;
-  --ds-z-index-modal: /* TODO */ 1200;
+  --ds-z-index-base: 0;
+  --ds-z-index-dropdown: 1000;
+  --ds-z-index-overlay: 1100;
+  --ds-z-index-modal: 1200;
 }
