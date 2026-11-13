@@ -1,8 +1,9 @@
 import type { MouseEvent } from 'react'
 
+import { GrainGradientBackground } from '../components/GrainGradientBackground'
+import { LiquidSigil } from '../components/LiquidSigil'
 import { SectionHeading } from '../components/SectionHeading'
 import { SiteNav } from '../components/SiteNav'
-import { StarMark } from '../components/StarMark'
 
 function HomePage() {
   const scrollToWork = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -14,11 +15,13 @@ function HomePage() {
     <div className="page-grid min-h-dvh">
       <SiteNav />
       <main>
-        <section className="content-wrap pb-20 pt-12 sm:pb-28 sm:pt-20">
-          <div className="thermal-field rounded-lg p-6 shadow-md sm:p-10 lg:p-16">
-            <StarMark className="hero-star" />
+        <section className="hero-shell pb-20 pt-12 sm:pb-28 sm:pt-20">
+          <GrainGradientBackground />
+          <div className="hero-dither" />
+          <div className="content-wrap hero-content">
+            <LiquidSigil size={240} className="hero-sigil" />
             <div className="plate max-w-4xl rounded-md p-6 sm:p-10">
-              <p className="motion-enter mb-6 font-mono text-xs uppercase tracking-[0.18em] text-accent">Computer science · PUCRS</p>
+              <p className="motion-enter mb-6 font-mono text-xs uppercase tracking-[0.18em] text-text-primary">Computer science · PUCRS</p>
               <h1 className="hero-title max-w-4xl text-display text-text-primary">
                 Nícolas da
                 <br />

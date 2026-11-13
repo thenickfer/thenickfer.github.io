@@ -20,6 +20,10 @@
   --color-thermal-violet: var(--ds-color-thermal-violet);
   --color-oxide: var(--ds-color-oxide);
   --color-thermal-hot: var(--ds-color-thermal-hot);
+  --color-iridescent-cyan: var(--ds-color-iridescent-cyan);
+  --color-iridescent-violet: var(--ds-color-iridescent-violet);
+  --color-iridescent-pink: var(--ds-color-iridescent-pink);
+  --color-iridescent-yellow: var(--ds-color-iridescent-yellow);
   --color-border: var(--ds-color-border);
 
   --font-primary: var(--ds-font-family-primary);
@@ -42,6 +46,8 @@
   --leading-tight: var(--ds-line-height-tight);
   --leading-normal: var(--ds-line-height-normal);
   --leading-relaxed: var(--ds-line-height-relaxed);
+
+  --transition-duration-hero: var(--ds-transition-duration-hero);
 
   --radius-sm: var(--ds-radius-sm);
   --radius-md: var(--ds-radius-md);
@@ -117,6 +123,105 @@
         var(--ds-color-oxide) 80%,
         var(--ds-color-thermal-hot) 100%
       );
+  }
+
+  .hero-shell {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--ds-color-surface-sunk);
+  }
+
+  .hero-shell > .hero-gradient,
+  .hero-shell > .hero-gradient-fallback {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-gradient-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(135deg, var(--ds-color-surface-sunk) 0%, var(--ds-color-cobalt-deep) 36%, var(--ds-color-cobalt) 58%, var(--ds-color-thermal-violet) 72%, var(--ds-color-oxide) 100%);
+  }
+
+  .hero-gradient-fallback::after {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256' viewBox='0 0 256 256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
+    content: '';
+    mix-blend-mode: soft-light;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .hero-gradient-live {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-dither {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: -1;
+    height: 30%;
+    background-image: repeating-conic-gradient(rgb(236 232 221 / 0.22) 0% 6.25%, transparent 6.25% 12.5%);
+    background-size: 4px 4px;
+    mask-image: linear-gradient(to top, black, transparent);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-sigil {
+    position: absolute;
+    right: 4%;
+    top: 8%;
+    z-index: 1;
+  }
+
+  .liquid-sigil {
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .liquid-sigil-fallback,
+  .liquid-sigil-live {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .liquid-sigil-live {
+    position: absolute;
+    inset: 0;
+  }
+
+  @media print {
+    .liquid-sigil-live,
+    .hero-gradient-live {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .hero-sigil {
+      right: 1rem;
+      top: 1.5rem;
+      transform: scale(0.55);
+      transform-origin: top right;
+    }
   }
 
   .thermal-field::before {

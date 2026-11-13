@@ -7,6 +7,10 @@ export const designTokens = {
     accent: 'var(--ds-color-accent)',
     cobalt: 'var(--ds-color-cobalt)',
     oxide: 'var(--ds-color-oxide)',
+    iridescentCyan: 'var(--ds-color-iridescent-cyan)',
+    iridescentViolet: 'var(--ds-color-iridescent-violet)',
+    iridescentPink: 'var(--ds-color-iridescent-pink)',
+    iridescentYellow: 'var(--ds-color-iridescent-yellow)',
     border: 'var(--ds-color-border)',
   },
   typography: {
@@ -42,6 +46,10 @@ export const designTokens = {
     12: 'var(--ds-spacing-12)',
     16: 'var(--ds-spacing-16)',
     24: 'var(--ds-spacing-24)',
+    32: 'var(--ds-spacing-32)',
+    48: 'var(--ds-spacing-48)',
+    64: 'var(--ds-spacing-64)',
+    96: 'var(--ds-spacing-96)',
   },
   radii: {
     sm: 'var(--ds-radius-sm)',
@@ -63,6 +71,7 @@ export const designTokens = {
     fastDuration: 'var(--ds-transition-duration-fast)',
     baseDuration: 'var(--ds-transition-duration-base)',
     slowDuration: 'var(--ds-transition-duration-slow)',
+    heroDuration: 'var(--ds-transition-duration-hero)',
     standardEasing: 'var(--ds-transition-easing-standard)',
   },
   zIndex: {
@@ -72,5 +81,9 @@ export const designTokens = {
     modal: 'var(--ds-z-index-modal)',
   },
 } as const
+
+export function nestedRadius(outer: number, padding: number): number {
+  return Math.max(outer - padding, 0)
+}
 
 export type DesignTokens = typeof designTokens
