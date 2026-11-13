@@ -5,7 +5,7 @@ import type { RefObject } from 'react'
 import maskUrl from '../assets/liquid-sigil-mask.svg'
 
 const LIQUID_SIGIL_START_VALUES = {
-  colorBackToken: '--ds-color-background',
+  colorBackToken: '--ds-color-transparent',
   colorTintToken: '--ds-color-iridescent-violet',
   shiftRed: 0.3,
   shiftBlue: 0.3,
@@ -128,8 +128,8 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
           distortion={LIQUID_SIGIL_START_VALUES.distortion}
           fit={LIQUID_SIGIL_START_VALUES.fit}
           image={maskUrl}
-          maxPixelCount={500_000}
-          minPixelRatio={1}
+          maxPixelCount={1_000_000}
+          minPixelRatio={1.5}
           repetition={LIQUID_SIGIL_START_VALUES.repetition}
           scale={LIQUID_SIGIL_START_VALUES.scale}
           shiftBlue={LIQUID_SIGIL_START_VALUES.shiftBlue}

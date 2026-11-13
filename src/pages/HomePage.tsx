@@ -13,16 +13,16 @@ function HomePage() {
 
   return (
     <div className="page-grid min-h-dvh">
-      <SiteNav />
       <main>
-        <section className="hero-shell pb-20 pt-12 sm:pb-28 sm:pt-20">
+        <section className="hero-shell">
           <GrainGradientBackground />
           <div className="hero-dither" />
+          <SiteNav />
           <div className="content-wrap hero-content">
             <LiquidSigil size={240} className="hero-sigil" />
-            <div className="plate max-w-4xl rounded-md p-6 sm:p-10">
+            <div className="plate hero-copy max-w-4xl rounded-md p-5 sm:p-10">
               <p className="motion-enter mb-6 font-mono text-xs uppercase tracking-[0.18em] text-text-primary">Computer science · PUCRS</p>
-              <h1 className="hero-title max-w-4xl text-display text-text-primary">
+              <h1 className="hero-title max-w-4xl text-text-primary">
                 Nícolas da
                 <br />
                 Costa Ferreira
@@ -30,11 +30,11 @@ function HomePage() {
               <p className="motion-enter motion-enter-delay-1 mt-8 max-w-xl text-lg leading-relaxed text-text-primary/90 sm:text-xl">
                 I work between software engineering, dependable systems, and research — building a clearer understanding of how technical systems behave.
               </p>
-              <div className="motion-enter motion-enter-delay-2 mt-8 flex flex-wrap gap-3">
-                <a className="rounded-md bg-accent px-5 py-3 font-medium text-surface-sunk transition-transform duration-100 hover:-translate-y-0.5 active:scale-[0.97]" href="#/" onClick={scrollToWork}>
+              <div className="motion-enter motion-enter-delay-2 mt-6 flex flex-wrap gap-3 sm:mt-8">
+                <a className="action-primary rounded-md bg-accent px-5 py-3 font-medium text-surface-sunk transition-transform duration-100 active:scale-[0.97]" href="#/" onClick={scrollToWork}>
                   Current work
                 </a>
-                <a className="rounded-md border border-text-primary/30 px-5 py-3 font-medium text-text-primary transition-colors duration-100 hover:border-accent hover:text-accent" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
+                <a className="action-secondary rounded-md border border-text-primary/30 px-5 py-3 font-medium text-text-primary transition-colors duration-100" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
                   GitHub profile <span aria-hidden="true">↗</span>
                 </a>
               </div>
@@ -79,7 +79,7 @@ function HomePage() {
           <div className="rounded-lg bg-surface-sunk p-6 sm:p-10">
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-accent">04 / contact</p>
             <h2 className="max-w-2xl text-4xl font-semibold leading-tight text-text-primary sm:text-5xl">For systems, software, and research conversations.</h2>
-            <a className="mt-8 inline-flex items-center gap-2 font-mono text-sm uppercase tracking-[0.12em] text-accent underline decoration-accent/40 underline-offset-8 hover:decoration-accent" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
+            <a className="contact-link mt-8 inline-flex items-center gap-2 font-mono text-sm uppercase tracking-[0.12em] text-accent underline decoration-accent/40 underline-offset-8" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
               GitHub / thenickfer <span aria-hidden="true">↗</span>
             </a>
           </div>
