@@ -8,16 +8,17 @@ import fallbackUrl from '../assets/star-sigil-fallback.svg'
 const LIQUID_SIGIL_START_VALUES = {
   colorBackToken: '--ds-color-transparent',
   colorTintToken: '--ds-color-iridescent-violet',
-  shiftRed: 0.3,
-  shiftBlue: 0.3,
-  repetition: 2,
-  softness: 0.1,
+  shiftRed: 0.5,
+  shiftBlue: 0.5,
+  repetition: 3,
+  softness: 0.06,
   distortion: 0.07,
-  contour: 0.4,
+  contour: 0.18,
   angle: 70,
-  scale: 0.6,
-  speed: 0.4,
+  scale: 0.97,
+  speed: 0.5,
   fit: 'contain' as const,
+  maskResolution: 512,
 }
 
 type LiquidSigilProps = {
@@ -85,7 +86,7 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
   const containerRef = useRef<HTMLDivElement>(null)
   const nearViewport = useNearViewport(containerRef)
   const environment = useShaderEnvironment()
-  const [maskLoaded, setMaskLoaded] = useState(false)
+  const [maskImageSrc, setMaskImageSrc] = useState<string | null>(null)
   const [colors] = useState<{ colorBack: string; colorTint: string } | undefined>(() => {
     if (typeof document === 'undefined') return undefined
     return {
@@ -95,12 +96,31 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
   })
   const clampedSize = Math.min(Math.max(size, 96), 480)
   useEffect(() => {
+    let active = true
     const image = new Image()
-    image.onload = () => setMaskLoaded(true)
-    image.onerror = () => setMaskLoaded(false)
+    image.onload = () => {
+      if (!active) return
+      const canvas = document.createElement('canvas')
+      canvas.width = LIQUID_SIGIL_START_VALUES.maskResolution
+      canvas.height = LIQUID_SIGIL_START_VALUES.maskResolution
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        setMaskImageSrc(maskUrl)
+        return
+      }
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
+      setMaskImageSrc(canvas.toDataURL('image/png'))
+    }
+    image.onerror = () => {
+      if (active) setMaskImageSrc(null)
+    }
     image.src = maskUrl
+    return () => {
+      active = false
+    }
   }, [])
 
+  const maskLoaded = Boolean(maskImageSrc)
   const branch = !environment.webgl
     ? 'fallback: no WebGL context'
     : environment.reducedMotion
@@ -108,9 +128,9 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
       : !maskLoaded
         ? 'fallback: sigil mask failed to load'
         : !nearViewport
-          ? 'fallback: outside viewport'
+          ? 'paused: outside viewport'
           : 'animated LiquidMetal shader'
-  const canRenderShader = nearViewport && environment.webgl && !environment.reducedMotion && maskLoaded
+  const canRenderShader = environment.webgl && !environment.reducedMotion && maskLoaded
 
   useEffect(() => {
     if (import.meta.env.DEV) {
@@ -126,8 +146,9 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
       aria-hidden={decorative}
     >
       <IridescentFallback decorative={decorative} label={label} />
-      {canRenderShader && colors ? (
+      {canRenderShader && colors && maskImageSrc ? (
         <LiquidMetal
+          angle={LIQUID_SIGIL_START_VALUES.angle}
           aria-hidden={decorative}
           className="liquid-sigil-live"
           colorBack={colors.colorBack}
@@ -135,9 +156,9 @@ export function LiquidSigil({ size = 240, decorative = true, label = 'Nícolas F
           contour={LIQUID_SIGIL_START_VALUES.contour}
           distortion={LIQUID_SIGIL_START_VALUES.distortion}
           fit={LIQUID_SIGIL_START_VALUES.fit}
-          image={maskUrl}
-          maxPixelCount={Math.ceil(clampedSize * clampedSize * 2.25)}
-          minPixelRatio={1}
+          image={maskImageSrc}
+          maxPixelCount={Math.max(Math.ceil(clampedSize * clampedSize * 2.25), LIQUID_SIGIL_START_VALUES.maskResolution * LIQUID_SIGIL_START_VALUES.maskResolution)}
+          minPixelRatio={1.5}
           repetition={LIQUID_SIGIL_START_VALUES.repetition}
           scale={LIQUID_SIGIL_START_VALUES.scale}
           shiftBlue={LIQUID_SIGIL_START_VALUES.shiftBlue}

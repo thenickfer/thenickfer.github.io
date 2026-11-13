@@ -10,23 +10,37 @@ const THERMAL_TOKENS = [
   '--ds-color-thermal-hot',
 ]
 
+const HERO_GRADIENT_SETTINGS = {
+  intensity: 0.3,
+  noise: 0.22,
+  shape: 'wave' as const,
+  softness: 0.72,
+  speed: 0.78,
+  maxPixelsDesktop: 640_000,
+  maxPixelsPhone: 320_000,
+}
+
 function useShaderEnvironment() {
-  const [environment, setEnvironment] = useState({ reducedMotion: false, webgl: false })
+  const [environment, setEnvironment] = useState({ reducedMotion: false, isPhone: false, webgl: false })
 
   useEffect(() => {
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const phoneQuery = window.matchMedia('(max-width: 767px)')
     const canvas = document.createElement('canvas')
     const webgl = Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'))
     const update = () =>
       setEnvironment({
         reducedMotion: reducedMotionQuery.matches,
+        isPhone: phoneQuery.matches,
         webgl,
       })
 
     update()
     reducedMotionQuery.addEventListener('change', update)
+    phoneQuery.addEventListener('change', update)
     return () => {
       reducedMotionQuery.removeEventListener('change', update)
+      phoneQuery.removeEventListener('change', update)
     }
   }, [])
 
@@ -45,20 +59,15 @@ export function ThermalGradientFallback() {
           <stop offset="86%" stopColor="var(--ds-color-oxide)" />
           <stop offset="100%" stopColor="var(--ds-color-thermal-hot)" />
         </linearGradient>
-        <filter id="thermal-fallback-grain">
-          <feTurbulence baseFrequency=".8" numOctaves="2" stitchTiles="stitch" type="fractalNoise" />
-          <feColorMatrix values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .16 0" />
-        </filter>
       </defs>
       <rect width="1600" height="900" fill="url(#thermal-fallback-gradient)" />
-      <rect width="1600" height="900" filter="url(#thermal-fallback-grain)" opacity=".35" />
     </svg>
   )
 }
 
 export function GrainGradientBackground() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [nearViewport, setNearViewport] = useState(false)
+  const [nearViewport, setNearViewport] = useState(true)
   const [colors] = useState<string[] | undefined>(() => {
     if (typeof document === 'undefined') return undefined
     return THERMAL_TOKENS.map((token) => getComputedStyle(document.documentElement).getPropertyValue(token).trim())
@@ -80,12 +89,15 @@ export function GrainGradientBackground() {
     ? 'fallback: no WebGL context'
     : environment.reducedMotion
       ? 'fallback: prefers-reduced-motion'
-      : !nearViewport
-        ? 'fallback: outside viewport'
-        : !colors
-          ? 'fallback: shader colors unavailable'
+      : !colors
+        ? 'fallback: shader colors unavailable'
+        : !nearViewport
+          ? 'paused: outside viewport'
           : 'animated GrainGradient shader'
-  const canRenderShader = nearViewport && environment.webgl && !environment.reducedMotion && Boolean(colors)
+  const canRenderShader = environment.webgl && !environment.reducedMotion && Boolean(colors)
+  const maxPixelCount = environment.isPhone
+    ? HERO_GRADIENT_SETTINGS.maxPixelsPhone
+    : HERO_GRADIENT_SETTINGS.maxPixelsDesktop
 
   useEffect(() => {
     if (import.meta.env.DEV) {
@@ -95,19 +107,19 @@ export function GrainGradientBackground() {
 
   return (
     <div ref={containerRef} className="hero-gradient" aria-hidden="true">
-      <ThermalGradientFallback />
+      {!canRenderShader ? <ThermalGradientFallback /> : null}
       {canRenderShader && colors ? (
         <GrainGradient
           className="hero-gradient-live"
           colorBack={colors[0]}
           colors={colors}
-          intensity={0.28}
-          maxPixelCount={Math.ceil(window.innerWidth * window.innerHeight * 2.25)}
+          intensity={HERO_GRADIENT_SETTINGS.intensity}
+          maxPixelCount={maxPixelCount}
           minPixelRatio={1}
-          noise={0.24}
-          shape="wave"
-          softness={0.7}
-          speed={0.08}
+          noise={HERO_GRADIENT_SETTINGS.noise}
+          shape={HERO_GRADIENT_SETTINGS.shape}
+          softness={HERO_GRADIENT_SETTINGS.softness}
+          speed={nearViewport ? HERO_GRADIENT_SETTINGS.speed : 0}
         />
       ) : null}
     </div>
