@@ -5,17 +5,21 @@ export const designTokens = {
     textPrimary: 'var(--ds-color-text-primary)',
     textSecondary: 'var(--ds-color-text-secondary)',
     accent: 'var(--ds-color-accent)',
+    cobalt: 'var(--ds-color-cobalt)',
+    oxide: 'var(--ds-color-oxide)',
     border: 'var(--ds-color-border)',
   },
   typography: {
     fontFamilyPrimary: 'var(--ds-font-family-primary)',
     fontFamilyMono: 'var(--ds-font-family-mono)',
+    fontFamilyDisplay: 'var(--ds-font-family-display)',
     fontSize: {
       xs: 'var(--ds-font-size-xs)',
       sm: 'var(--ds-font-size-sm)',
       md: 'var(--ds-font-size-md)',
       lg: 'var(--ds-font-size-lg)',
       xl: 'var(--ds-font-size-xl)',
+      display: 'var(--ds-font-size-display)',
     },
     fontWeight: {
       regular: 'var(--ds-font-weight-regular)',
@@ -35,6 +39,9 @@ export const designTokens = {
     4: 'var(--ds-spacing-4)',
     6: 'var(--ds-spacing-6)',
     8: 'var(--ds-spacing-8)',
+    12: 'var(--ds-spacing-12)',
+    16: 'var(--ds-spacing-16)',
+    24: 'var(--ds-spacing-24)',
   },
   radii: {
     sm: 'var(--ds-radius-sm)',
@@ -55,6 +62,7 @@ export const designTokens = {
   transitions: {
     fastDuration: 'var(--ds-transition-duration-fast)',
     baseDuration: 'var(--ds-transition-duration-base)',
+    slowDuration: 'var(--ds-transition-duration-slow)',
     standardEasing: 'var(--ds-transition-easing-standard)',
   },
   zIndex: {
