@@ -1,0 +1,65 @@
+:root {
+  /* Colors */
+  --ds-color-background: /* TODO */ transparent;
+  --ds-color-surface: /* TODO */ transparent;
+  --ds-color-text-primary: /* TODO */ currentColor;
+  --ds-color-text-secondary: /* TODO */ currentColor;
+  --ds-color-accent: /* TODO */ currentColor;
+  --ds-color-border: /* TODO */ transparent;
+
+  /* Typography */
+  --ds-font-family-primary: /* TODO */ sans-serif;
+  --ds-font-family-mono: /* TODO */ monospace;
+
+  /* Font sizes */
+  --ds-font-size-xs: /* TODO */ 0.75rem;
+  --ds-font-size-sm: /* TODO */ 0.875rem;
+  --ds-font-size-md: /* TODO */ 1rem;
+  --ds-font-size-lg: /* TODO */ 1.125rem;
+  --ds-font-size-xl: /* TODO */ 1.25rem;
+
+  /* Font weights */
+  --ds-font-weight-regular: /* TODO */ 400;
+  --ds-font-weight-medium: /* TODO */ 500;
+  --ds-font-weight-semibold: /* TODO */ 600;
+
+  /* Line heights */
+  --ds-line-height-tight: /* TODO */ 1.25;
+  --ds-line-height-normal: /* TODO */ 1.5;
+  --ds-line-height-relaxed: /* TODO */ 1.625;
+
+  /* Spacing */
+  --ds-spacing-1: /* TODO */ 0.25rem;
+  --ds-spacing-2: /* TODO */ 0.5rem;
+  --ds-spacing-3: /* TODO */ 0.75rem;
+  --ds-spacing-4: /* TODO */ 1rem;
+  --ds-spacing-6: /* TODO */ 1.5rem;
+  --ds-spacing-8: /* TODO */ 2rem;
+
+  /* Border radii */
+  --ds-radius-sm: /* TODO */ 0.25rem;
+  --ds-radius-md: /* TODO */ 0.5rem;
+  --ds-radius-lg: /* TODO */ 0.75rem;
+
+  /* Border widths */
+  --ds-border-width-default: /* TODO */ 1px;
+  --ds-border-width-strong: /* TODO */ 2px;
+
+  /* Shadows */
+  --ds-shadow-sm: /* TODO */ 0 1px 2px rgb(0 0 0 / 0.05);
+  --ds-shadow-md: /* TODO */ 0 4px 6px rgb(0 0 0 / 0.1);
+
+  /* Layout dimensions */
+  --ds-content-max-width: /* TODO */ 80rem;
+
+  /* Transitions */
+  --ds-transition-duration-fast: /* TODO */ 150ms;
+  --ds-transition-duration-base: /* TODO */ 200ms;
+  --ds-transition-easing-standard: /* TODO */ ease;
+
+  /* Z-index levels */
+  --ds-z-index-base: /* TODO */ 0;
+  --ds-z-index-dropdown: /* TODO */ 1000;
+  --ds-z-index-overlay: /* TODO */ 1100;
+  --ds-z-index-modal: /* TODO */ 1200;
+}

@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@theme {
+  --color-background: var(--ds-color-background);
+  --color-surface: var(--ds-color-surface);
+  --color-text-primary: var(--ds-color-text-primary);
+  --color-text-secondary: var(--ds-color-text-secondary);
+  --color-accent: var(--ds-color-accent);
+  --color-border: var(--ds-color-border);
+
+  --font-primary: var(--ds-font-family-primary);
+  --font-mono: var(--ds-font-family-mono);
+
+  --text-xs: var(--ds-font-size-xs);
+  --text-sm: var(--ds-font-size-sm);
+  --text-base: var(--ds-font-size-md);
+  --text-lg: var(--ds-font-size-lg);
+  --text-xl: var(--ds-font-size-xl);
+
+  --font-weight-normal: var(--ds-font-weight-regular);
+  --font-weight-medium: var(--ds-font-weight-medium);
+  --font-weight-semibold: var(--ds-font-weight-semibold);
+
+  --leading-tight: var(--ds-line-height-tight);
+  --leading-normal: var(--ds-line-height-normal);
+  --leading-relaxed: var(--ds-line-height-relaxed);
+
+  --radius-sm: var(--ds-radius-sm);
+  --radius-md: var(--ds-radius-md);
+  --radius-lg: var(--ds-radius-lg);
+
+  --shadow-sm: var(--ds-shadow-sm);
+  --shadow-md: var(--ds-shadow-md);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--ds-color-background);
+    color: var(--ds-color-text-primary);
+    font-family: var(--ds-font-family-primary);
+    font-size: var(--ds-font-size-md);
+    font-weight: var(--ds-font-weight-regular);
+    line-height: var(--ds-line-height-normal);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
