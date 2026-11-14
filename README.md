@@ -62,7 +62,7 @@ education: [
 ]
 ```
 
-Add professional roles to `experience` and laboratories to `researchAffiliations` using the same `organization` shape. Add official organization artwork under `public/logos/`, then reference it with a root-relative path such as `/logos/laboratory.svg`. The optional profile photograph belongs at `public/images/profile.jpg`; no component change is needed when it is added.
+Add professional roles and research affiliations to the `experienceResearch` array. Set `type` to `experience` or `research`, then provide the organization, optional role and dates, and one or more `focusAreas` with a title and concise description. Add official organization artwork under `public/logos/`, then reference it with a root-relative path such as `/logos/laboratory.svg`. The optional profile photograph belongs at `public/images/profile.jpg`; no component change is needed when it is added.
 
 ## Available scripts
 

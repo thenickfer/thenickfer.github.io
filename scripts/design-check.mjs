@@ -17,6 +17,7 @@ async function files(path) {
 }
 
 for (const path of (await Promise.all(scanRoots.map(files))).flat()) {
+  if (/\.(gif|jpe?g|png|webp|woff2)$/i.test(path)) continue
   const content = await readFile(join(root, path), 'utf8')
   if (hexPattern.test(content) && !path.endsWith('tokens.css') && !path.startsWith('src/assets/') && !path.startsWith('public/logos/')) failures.push(`${path}: raw hex color`)
   if (/transition\s*:\s*all\b/i.test(content)) failures.push(`${path}: transition: all`)
@@ -34,8 +35,8 @@ for (const phrase of ['Engineering with a researcher', 'Two places to study', 'A
 if (home.includes('id="overview"') || home.includes('id="projects"')) {
   failures.push('src/pages/HomePage.tsx: filler sections remain')
 }
-if (!/title="Experience"/.test(home) || !/title="Contact"/.test(home)) {
-  failures.push('src/pages/HomePage.tsx: plain Experience and Contact headings required')
+if (!/title="Experience & Research"/.test(home) || !/title="Contact"/.test(home)) {
+  failures.push('src/pages/HomePage.tsx: plain Experience & Research and Contact headings required')
 }
 
 if (failures.length) {

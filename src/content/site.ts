@@ -18,16 +18,18 @@ export type Education = {
   gpa?: string
 }
 
-export type Experience = {
-  organization: Organization
-  role: string
-  areas: string[]
+export type FocusArea = {
+  title: string
   description: string
 }
 
-export type ResearchAffiliation = {
+export type ExperienceResearchEntry = {
+  type: 'experience' | 'research'
   organization: Organization
-  areas: string[]
+  role?: string
+  dates?: string
+  focusAreas: FocusArea[]
+  description?: string
 }
 
 export type SiteContent = {
@@ -39,8 +41,7 @@ export type SiteContent = {
   contacts: ContactLink[]
   researchInterests: string[]
   education: Education[]
-  experience: Experience[]
-  researchAffiliations: ResearchAffiliation[]
+  experienceResearch: ExperienceResearchEntry[]
   publications: unknown[]
   projects: unknown[]
 }
@@ -48,7 +49,7 @@ export type SiteContent = {
 export const siteContent: SiteContent = {
   profile: {
     name: 'Nícolas da Costa Ferreira',
-    photo:  '/images/profile.png',
+    photo: '/images/profile.png',
     biography:
       'I am a Computer Science undergraduate at PUCRS. I work as a Researcher and Software Engineering Intern at the Laboratório de Inovação em Software (LiS), in the HP/PUCRS partnership, and research systems reliability, embedded systems, and error correction codes with NSESD. My technical interests include reliable systems, distributed computing, software engineering, AI, DevOps, infrastructure, and developer tooling.',
   },
@@ -82,24 +83,38 @@ export const siteContent: SiteContent = {
       gpa: '9.1/10',
     },
   ],
-  experience: [
+  experienceResearch: [
     {
+      type: 'experience',
       organization: {
         name: 'LiS · HP/PUCRS — Laboratório de Inovação em Software',
         website: 'https://www.politecnica.pucrs.br/laboratorios/lis/',
       },
       role: 'Researcher & Software Engineering Intern',
-      areas: ['AI', 'Infrastructure', 'Software Engineering', 'Developer Tooling'],
-      description: 'I work on research and software engineering within the LiS laboratory.',
+      focusAreas: [
+        {
+          title: 'AI Research & Development',
+          description: 'I work with natural language processing, semantic text classification, text embeddings, similarity-based approaches, LLM applications and workflows, computer vision, and AI datasets.',
+        },
+        {
+          title: 'Software Engineering & Infrastructure',
+          description: 'I work with cloud and infrastructure engineering, developer tooling and CI/CD, distributed software systems, and backend and full-stack development.',
+        },
+      ],
     },
-  ],
-  researchAffiliations: [
     {
+      type: 'research',
       organization: {
         name: 'NSESD · PUCRS',
         website: 'https://nsesd.pucrs.br/en/',
       },
-      areas: ['Systems Reliability', 'Embedded Systems', 'Error Correction Codes (ECC)'],
+      role: 'Research affiliation',
+      focusAreas: [
+        {
+          title: 'Research areas',
+          description: 'I research systems reliability, embedded systems, and error correction codes (ECC).',
+        },
+      ],
     },
   ],
   publications: [],

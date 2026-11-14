@@ -367,6 +367,15 @@
     align-items: center;
   }
 
+  .site-nav-link {
+    color: var(--ds-color-accent);
+    transition: color var(--ds-transition-duration-fast) var(--ds-transition-easing-standard);
+  }
+
+  .site-nav-link-active {
+    color: var(--ds-color-text-primary);
+  }
+
   .site-nav-links {
     display: none;
     align-items: center;
@@ -411,6 +420,10 @@
     font-size: var(--ds-font-size-sm);
     text-transform: uppercase;
     letter-spacing: 0.1em;
+  }
+
+  .site-nav-sheet .site-nav-link-active {
+    color: var(--ds-color-text-primary);
   }
 
   .hero-copy {
