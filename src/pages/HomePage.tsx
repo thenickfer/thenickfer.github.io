@@ -89,31 +89,33 @@ function HomePage() {
           </div>
         </section> : null}
 
-        {siteContent.experience.length > 0 ? <section id="work" className="content-wrap border-t border-border py-20 sm:py-28">
-          <SectionHeading eyebrow="04 / Experience" title="Experience" />
+        {siteContent.experienceResearch.length > 0 ? <section id="work" className="content-wrap border-t border-border py-20 sm:py-28">
+          <SectionHeading eyebrow="04 / Experience & Research" title="Experience & Research" />
           <div className="grid gap-4">
-            {siteContent.experience.map((item) => (
-              <article key={`${item.organization.name}-${item.role}`} className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-                <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
-                  {item.organization.website ? <ExternalLink href={item.organization.website}>{item.organization.name} <span aria-hidden="true">↗</span></ExternalLink> : item.organization.name}
-                </p>
-                <h3 className="mt-6 text-3xl font-semibold text-text-primary">{item.role}</h3>
-                <p className="mt-4 leading-relaxed text-text-secondary">{item.description}</p>
-                <p className="mt-6 font-mono text-xs uppercase tracking-[0.12em] text-text-secondary">{item.areas.join(' · ')}</p>
-              </article>
-            ))}
-          </div>
-        </section> : null}
-
-        {siteContent.researchAffiliations.length > 0 ? <section id="affiliations" className="content-wrap border-t border-border py-20 sm:py-28">
-          <SectionHeading eyebrow="05 / Research affiliations" title="Research affiliations" />
-          <div className="grid gap-4">
-            {siteContent.researchAffiliations.map((item) => (
-              <article key={item.organization.name} className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-                <h3 className="text-3xl font-semibold text-text-primary">
-                  {item.organization.website ? <ExternalLink href={item.organization.website}>{item.organization.name} <span aria-hidden="true">↗</span></ExternalLink> : item.organization.name}
-                </h3>
-                <p className="mt-4 leading-relaxed text-text-secondary">{item.areas.join(' · ')}</p>
+            {siteContent.experienceResearch.map((item) => (
+              <article key={`${item.organization.name}-${item.role ?? item.type}`} className="rounded-lg border border-border bg-surface p-6 sm:p-8">
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                      {item.type === 'experience' ? 'Professional experience' : 'Research affiliation'}
+                    </p>
+                    <h3 className="mt-4 text-3xl font-semibold text-text-primary">
+                      {item.organization.website ? <ExternalLink href={item.organization.website}>{item.organization.name} <span aria-hidden="true">↗</span></ExternalLink> : item.organization.name}
+                    </h3>
+                    {item.role ? <p className="mt-3 text-lg text-text-primary">{item.role}</p> : null}
+                    {item.dates ? <p className="mt-2 text-text-secondary">{item.dates}</p> : null}
+                  </div>
+                  <OrganizationLogo src={item.organization.logo} alt={item.organization.name} size="small" />
+                </div>
+                {item.description ? <p className="mt-6 leading-relaxed text-text-secondary">{item.description}</p> : null}
+                <div className="mt-8 grid gap-6 md:grid-cols-2">
+                  {item.focusAreas.map((area) => (
+                    <div key={area.title}>
+                      <h4 className="font-mono text-xs uppercase tracking-[0.12em] text-accent">{area.title}</h4>
+                      <p className="mt-3 leading-relaxed text-text-secondary">{area.description}</p>
+                    </div>
+                  ))}
+                </div>
               </article>
             ))}
           </div>

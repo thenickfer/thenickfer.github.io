@@ -34,8 +34,8 @@ for (const phrase of ['Engineering with a researcher', 'Two places to study', 'A
 if (home.includes('id="overview"') || home.includes('id="projects"')) {
   failures.push('src/pages/HomePage.tsx: filler sections remain')
 }
-if (!/title="Experience"/.test(home) || !/title="Contact"/.test(home)) {
-  failures.push('src/pages/HomePage.tsx: plain Experience and Contact headings required')
+if (!/title="Experience & Research"/.test(home) || !/title="Contact"/.test(home)) {
+  failures.push('src/pages/HomePage.tsx: plain Experience & Research and Contact headings required')
 }
 
 if (failures.length) {
