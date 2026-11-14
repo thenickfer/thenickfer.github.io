@@ -1,7 +1,18 @@
+import { OrganizationLogo } from '../components/OrganizationLogo'
 import { GrainGradientBackground } from '../components/GrainGradientBackground'
 import { LiquidSigil } from '../components/LiquidSigil'
 import { SectionHeading } from '../components/SectionHeading'
 import { SiteNav } from '../components/SiteNav'
+import { siteContent } from '../content/site'
+
+function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const external = href.startsWith('http')
+  return (
+    <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}>
+      {children}
+    </a>
+  )
+}
 
 function HomePage() {
   return (
@@ -35,29 +46,90 @@ function HomePage() {
           </div>
         </section>
 
-        <section id="work" className="content-wrap border-t border-border py-20 sm:py-28">
-          <SectionHeading title="Work" />
-          <div className="grid gap-4 md:grid-cols-2">
-            <article className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-              <p className="mb-8 font-mono text-xs uppercase tracking-[0.16em] text-accent">LiS · PUCRS / HP</p>
-              <h3 className="text-3xl font-semibold text-text-primary">LiS</h3>
-              <p className="mt-4 leading-relaxed text-text-secondary">I work on AI and software R&amp;D at LiS within PUCRS / HP.</p>
-            </article>
-            <article className="rounded-lg border border-border bg-surface p-6 sm:p-8">
-              <p className="mb-8 font-mono text-xs uppercase tracking-[0.16em] text-accent">NSESD · PUCRS</p>
-              <h3 className="text-3xl font-semibold text-text-primary">NSESD</h3>
-              <p className="mt-4 leading-relaxed text-text-secondary">I research systems reliability, embedded systems, and error-correction codes at PUCRS.</p>
-            </article>
+        <section id="profile" className="content-wrap border-t border-border py-20 sm:py-28">
+          <SectionHeading eyebrow="01 / Profile" title="Profile" />
+          <div className="grid gap-8 md:grid-cols-[minmax(12rem,18rem)_1fr] md:items-start">
+            {siteContent.profile.photo ? (
+              <div className="profile-photo-wrap">
+                <img className="profile-photo" src={siteContent.profile.photo} alt={`Portrait of ${siteContent.profile.name}`} />
+              </div>
+            ) : null}
+            <div>
+              <p className="max-w-3xl text-lg leading-relaxed text-text-secondary">{siteContent.profile.biography}</p>
+              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 font-mono text-xs uppercase tracking-[0.12em] text-accent">
+                {siteContent.contacts.map((contact) => (
+                  <ExternalLink key={contact.href} href={contact.href}>{contact.label} <span aria-hidden="true">↗</span></ExternalLink>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
+        {siteContent.researchInterests.length > 0 ? <section id="research" className="content-wrap border-t border-border py-20 sm:py-28">
+          <SectionHeading eyebrow="02 / Research" title="Research interests" />
+          <p className="max-w-4xl text-xl leading-relaxed text-text-secondary">
+            {siteContent.researchInterests.join(' · ')}
+          </p>
+        </section> : null}
+
+        {siteContent.education.length > 0 ? <section id="education" className="content-wrap border-t border-border py-20 sm:py-28">
+          <SectionHeading eyebrow="03 / Education" title="Education" />
+          <div className="grid gap-4">
+            {siteContent.education.map((item) => (
+              <article key={`${item.institution.name}-${item.degree}`} className="grid gap-6 rounded-lg border border-border bg-surface p-6 sm:grid-cols-[auto_1fr] sm:p-8">
+                <OrganizationLogo src={item.institution.logo} alt={item.institution.name} size="large" />
+                <div>
+                  <h3 className="text-2xl font-semibold text-text-primary">{item.institution.website ? <ExternalLink href={item.institution.website}>{item.institution.name}</ExternalLink> : item.institution.name}</h3>
+                  <p className="mt-3 text-lg text-text-primary">{item.degree}</p>
+                  <p className="mt-2 text-text-secondary">{item.status} · {item.period}</p>
+                  {item.gpa ? <p className="mt-2 font-mono text-sm uppercase tracking-[0.1em] text-accent">GPA {item.gpa}</p> : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section> : null}
+
+        {siteContent.experience.length > 0 ? <section id="work" className="content-wrap border-t border-border py-20 sm:py-28">
+          <SectionHeading eyebrow="04 / Experience" title="Experience" />
+          <div className="grid gap-4">
+            {siteContent.experience.map((item) => (
+              <article key={`${item.organization.name}-${item.role}`} className="rounded-lg border border-border bg-surface p-6 sm:p-8">
+                <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+                  {item.organization.website ? <ExternalLink href={item.organization.website}>{item.organization.name} <span aria-hidden="true">↗</span></ExternalLink> : item.organization.name}
+                </p>
+                <h3 className="mt-6 text-3xl font-semibold text-text-primary">{item.role}</h3>
+                <p className="mt-4 leading-relaxed text-text-secondary">{item.description}</p>
+                <p className="mt-6 font-mono text-xs uppercase tracking-[0.12em] text-text-secondary">{item.areas.join(' · ')}</p>
+              </article>
+            ))}
+          </div>
+        </section> : null}
+
+        {siteContent.researchAffiliations.length > 0 ? <section id="affiliations" className="content-wrap border-t border-border py-20 sm:py-28">
+          <SectionHeading eyebrow="05 / Research affiliations" title="Research affiliations" />
+          <div className="grid gap-4">
+            {siteContent.researchAffiliations.map((item) => (
+              <article key={item.organization.name} className="rounded-lg border border-border bg-surface p-6 sm:p-8">
+                <h3 className="text-3xl font-semibold text-text-primary">
+                  {item.organization.website ? <ExternalLink href={item.organization.website}>{item.organization.name} <span aria-hidden="true">↗</span></ExternalLink> : item.organization.name}
+                </h3>
+                <p className="mt-4 leading-relaxed text-text-secondary">{item.areas.join(' · ')}</p>
+              </article>
+            ))}
+          </div>
+        </section> : null}
+
         <section id="contact" className="content-wrap border-t border-border py-20 sm:py-28">
           <div className="rounded-lg bg-surface-sunk p-6 sm:p-10">
-            <h2 className="max-w-2xl text-4xl font-semibold leading-tight text-text-primary sm:text-5xl">Contact</h2>
-            <p className="mt-4 max-w-2xl leading-relaxed text-text-secondary">Contact me through GitHub about systems, software, or research.</p>
-            <a className="contact-link mt-8 inline-flex items-center gap-2 font-mono text-sm uppercase tracking-[0.12em] text-accent underline decoration-accent/40 underline-offset-8" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
-              GitHub / thenickfer <span aria-hidden="true">↗</span>
-            </a>
+            <SectionHeading eyebrow="06 / Contact" title="Contact" />
+            <p className="max-w-2xl leading-relaxed text-text-secondary">The best way to reach me is through my academic email.</p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {siteContent.contacts.map((contact) => (
+                <a key={contact.href} className={`contact-link font-mono text-sm uppercase tracking-[0.12em] underline decoration-accent/40 underline-offset-8 ${contact.priority === 'primary' ? 'text-accent' : 'text-text-primary'}`} href={contact.href}>
+                  {contact.label} <span aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       </main>

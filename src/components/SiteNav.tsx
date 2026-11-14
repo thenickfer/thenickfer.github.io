@@ -4,6 +4,8 @@ import { useLenis } from 'lenis/react'
 
 const navigation = [
   { label: 'Home', href: '#/' },
+  { label: 'Profile', href: '#profile' },
+  { label: 'Research', href: '#research' },
   { label: 'Work', href: '#work' },
   { label: 'Contact', href: '#contact' },
 ]

@@ -46,6 +46,24 @@ npm install
 npm run dev
 ```
 
+## Updating portfolio content
+
+All landing-page content is defined in `src/content/site.ts`. React components render the arrays there, so adding an entry does not require editing the page layout.
+
+```ts
+education: [
+  {
+    institution: { name: 'University name', logo: '/logos/university.svg', website: 'https://example.edu' },
+    degree: 'Degree name',
+    status: 'In progress',
+    period: 'Expected graduation: June 2028',
+    gpa: '9.0/10',
+  },
+]
+```
+
+Add professional roles to `experience` and laboratories to `researchAffiliations` using the same `organization` shape. Add official organization artwork under `public/logos/`, then reference it with a root-relative path such as `/logos/laboratory.svg`. The optional profile photograph belongs at `public/images/profile.jpg`; no component change is needed when it is added.
+
 ## Available scripts
 
 - `npm run dev` — run local Vite dev server
