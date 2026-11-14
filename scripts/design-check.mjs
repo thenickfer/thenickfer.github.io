@@ -17,6 +17,7 @@ async function files(path) {
 }
 
 for (const path of (await Promise.all(scanRoots.map(files))).flat()) {
+  if (/\.(gif|jpe?g|png|webp|woff2)$/i.test(path)) continue
   const content = await readFile(join(root, path), 'utf8')
   if (hexPattern.test(content) && !path.endsWith('tokens.css') && !path.startsWith('src/assets/') && !path.startsWith('public/logos/')) failures.push(`${path}: raw hex color`)
   if (/transition\s*:\s*all\b/i.test(content)) failures.push(`${path}: transition: all`)

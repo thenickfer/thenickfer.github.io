@@ -49,7 +49,7 @@ export type SiteContent = {
 export const siteContent: SiteContent = {
   profile: {
     name: 'Nícolas da Costa Ferreira',
-    photo:  '/images/profile.png',
+    photo: '/images/profile.png',
     biography:
       'I am a Computer Science undergraduate at PUCRS. I work as a Researcher and Software Engineering Intern at the Laboratório de Inovação em Software (LiS), in the HP/PUCRS partnership, and research systems reliability, embedded systems, and error correction codes with NSESD. My technical interests include reliable systems, distributed computing, software engineering, AI, DevOps, infrastructure, and developer tooling.',
   },
