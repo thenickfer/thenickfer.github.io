@@ -18,7 +18,7 @@ function HomePage() {
   return (
     <div className="page-grid min-h-dvh">
       <main>
-        <section className="hero-shell">
+        <section id="home" className="hero-shell">
           <GrainGradientBackground />
           <div className="hero-dither" />
           <SiteNav />
