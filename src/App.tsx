@@ -1,6 +1,17 @@
+import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 import { HomePage } from './pages/HomePage'
+
+const CreatureFieldDemo = lazy(() => import('./pages/CreatureFieldDemo'))
+
+const SECRET_CREATURES_PATH = '/labs/creatures-q7x2'
+
+function isDirectSecretCreaturesPathname(): boolean {
+  if (typeof window === 'undefined') return false
+  const normalized = window.location.pathname.replace(/\/+$/, '')
+  return normalized === SECRET_CREATURES_PATH
+}
 
 function NotFoundPage() {
   return (
@@ -17,6 +28,14 @@ function NotFoundPage() {
 }
 
 function App() {
+  if (isDirectSecretCreaturesPathname()) {
+    return (
+      <Suspense fallback={null}>
+        <CreatureFieldDemo />
+      </Suspense>
+    )
+  }
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -25,6 +44,14 @@ function App() {
       <Route path="/projects" element={<NotFoundPage />} />
       <Route path="/experience" element={<NotFoundPage />} />
       <Route path="/contact" element={<NotFoundPage />} />
+      <Route
+        path={SECRET_CREATURES_PATH}
+        element={
+          <Suspense fallback={null}>
+            <CreatureFieldDemo />
+          </Suspense>
+        }
+      />
       <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<Navigate to="/404" replace />} />
     </Routes>
