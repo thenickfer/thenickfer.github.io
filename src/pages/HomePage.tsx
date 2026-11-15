@@ -1,20 +1,37 @@
+import { Fragment, useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Abbreviated } from '../components/Abbr'
 import { OrganizationLogo } from '../components/OrganizationLogo'
 import { GrainGradientBackground } from '../components/GrainGradientBackground'
 import { LiquidSigil } from '../components/LiquidSigil'
+import { PixelLoader } from '../components/PixelLoader'
 import { SectionHeading } from '../components/SectionHeading'
 import { SiteNav } from '../components/SiteNav'
 import { siteContent } from '../content/site'
+import { buildRel } from '../lib/links'
 
-function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
+function ExternalLink({ href, identity, className, children }: { href: string; identity?: boolean; className?: string; children: React.ReactNode }) {
   const external = href.startsWith('http')
   return (
-    <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined}>
+    <a className={className} href={href} target={external ? '_blank' : undefined} rel={buildRel({ identity, newTab: external })}>
       {children}
     </a>
   )
 }
 
 function HomePage() {
+  const portraitRef = useRef<HTMLImageElement | null>(null)
+  const [photoLoaded, setPhotoLoaded] = useState(false)
+
+  useEffect(() => {
+    const img = portraitRef.current
+    if (!img || !img.complete) return
+    const id = window.requestAnimationFrame(() => {
+      setPhotoLoaded(true)
+    })
+    return () => window.cancelAnimationFrame(id)
+  }, [])
+
   return (
     <div className="page-grid min-h-dvh">
       <main>
@@ -32,15 +49,19 @@ function HomePage() {
                 Costa Ferreira
               </h1>
               <p className="motion-enter motion-enter-delay-1 mt-8 max-w-xl text-lg leading-relaxed text-text-primary/90 sm:text-xl">
-                I build software and study reliable systems at PUCRS.
+                Computer Science undergraduate at PUCRS.
               </p>
               <div className="motion-enter motion-enter-delay-2 mt-6 flex flex-wrap gap-3 sm:mt-8">
                 <a className="action-primary rounded-md bg-accent px-5 py-3 font-medium text-ink transition-transform duration-100 active:scale-[0.97]" href="#work">
                   Current work
                 </a>
-                <a className="action-secondary rounded-md border border-text-primary/30 px-5 py-3 font-medium text-text-primary transition-colors duration-100" href="https://github.com/thenickfer" target="_blank" rel="noreferrer">
-                  GitHub profile <span aria-hidden="true">↗</span>
-                </a>
+                <Link
+                  className="action-secondary inline-flex min-h-11 items-center gap-2 rounded-md border border-text-primary/30 px-5 py-3 font-medium text-text-primary transition-colors duration-100"
+                  to="/links"
+                  data-testid="hero-links-cta"
+                >
+                  My Links <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -50,15 +71,29 @@ function HomePage() {
           <SectionHeading eyebrow="01 / Profile" title="Profile" />
           <div className="grid gap-8 md:grid-cols-[minmax(12rem,18rem)_1fr] md:items-start">
             {siteContent.profile.photo ? (
-              <div className="profile-photo-wrap">
-                <img className="profile-photo" src={siteContent.profile.photo} alt={`Portrait of ${siteContent.profile.name}`} />
+              <div className="profile-photo-wrap relative" aria-busy={!photoLoaded}>
+                <PixelLoader
+                  variant="section"
+                  label="Loading portrait"
+                  delayMs={120}
+                  active={!photoLoaded}
+                  className="absolute inset-0"
+                />
+                <img
+                  ref={portraitRef}
+                  className="profile-photo"
+                  src={siteContent.profile.photo}
+                  alt={`Portrait of ${siteContent.profile.name}`}
+                  onLoad={() => setPhotoLoaded(true)}
+                  onError={() => setPhotoLoaded(true)}
+                />
               </div>
             ) : null}
             <div>
-              <p className="max-w-3xl text-lg leading-relaxed text-text-secondary">{siteContent.profile.biography}</p>
+              <p className="max-w-3xl text-lg leading-relaxed text-text-secondary"><Abbreviated>{siteContent.profile.biography}</Abbreviated></p>
               <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 font-mono text-xs uppercase tracking-[0.12em] text-accent">
                 {siteContent.contacts.map((contact) => (
-                  <ExternalLink key={contact.href} href={contact.href}>{contact.label} <span aria-hidden="true">↗</span></ExternalLink>
+                  <ExternalLink key={contact.href} href={contact.href} identity={contact.identity}>{contact.label} <span aria-hidden="true">↗</span></ExternalLink>
                 ))}
               </div>
             </div>
@@ -68,7 +103,12 @@ function HomePage() {
         {siteContent.researchInterests.length > 0 ? <section id="research" className="content-wrap border-t border-border py-20 sm:py-28">
           <SectionHeading eyebrow="02 / Research" title="Research interests" />
           <p className="max-w-4xl text-xl leading-relaxed text-text-secondary">
-            {siteContent.researchInterests.join(' · ')}
+            {siteContent.researchInterests.map((interest, index) => (
+              <Fragment key={interest}>
+                {index > 0 ? ' · ' : null}
+                <Abbreviated>{interest}</Abbreviated>
+              </Fragment>
+            ))}
           </p>
         </section> : null}
 
@@ -80,7 +120,7 @@ function HomePage() {
                 <OrganizationLogo src={item.institution.logo} alt={item.institution.name} size="large" />
                 <div>
                   <h3 className="text-2xl font-semibold text-text-primary">{item.institution.website ? <ExternalLink href={item.institution.website}>{item.institution.name}</ExternalLink> : item.institution.name}</h3>
-                  <p className="mt-3 text-lg text-text-primary">{item.degree}</p>
+                  <p className="mt-3 text-lg text-text-primary"><Abbreviated>{item.degree}</Abbreviated></p>
                   <p className="mt-2 text-text-secondary">{item.status} · {item.period}</p>
                   {item.gpa ? <p className="mt-2 font-mono text-sm uppercase tracking-[0.1em] text-accent">GPA {item.gpa}</p> : null}
                 </div>
@@ -107,12 +147,12 @@ function HomePage() {
                   </div>
                   <OrganizationLogo src={item.organization.logo} alt={item.organization.name} size="small" />
                 </div>
-                {item.description ? <p className="mt-6 leading-relaxed text-text-secondary">{item.description}</p> : null}
+                {item.description ? <p className="mt-6 leading-relaxed text-text-secondary"><Abbreviated>{item.description}</Abbreviated></p> : null}
                 <div className="mt-8 grid gap-6 md:grid-cols-2">
                   {item.focusAreas.map((area) => (
                     <div key={area.title}>
                       <h4 className="font-mono text-xs uppercase tracking-[0.12em] text-accent">{area.title}</h4>
-                      <p className="mt-3 leading-relaxed text-text-secondary">{area.description}</p>
+                      <p className="mt-3 leading-relaxed text-text-secondary"><Abbreviated>{area.description}</Abbreviated></p>
                     </div>
                   ))}
                 </div>
@@ -127,7 +167,7 @@ function HomePage() {
             <p className="max-w-2xl leading-relaxed text-text-secondary">The best way to reach me is through my academic email.</p>
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {siteContent.contacts.map((contact) => (
-                <a key={contact.href} className={`contact-link font-mono text-sm uppercase tracking-[0.12em] underline decoration-accent/40 underline-offset-8 ${contact.priority === 'primary' ? 'text-accent' : 'text-text-primary'}`} href={contact.href}>
+                <a key={contact.href} className={`contact-link font-mono text-sm uppercase tracking-[0.12em] underline decoration-accent/40 underline-offset-8 ${contact.priority === 'primary' ? 'text-accent' : 'text-text-primary'}`} href={contact.href} rel={buildRel({ identity: contact.identity })}>
                   {contact.label} <span aria-hidden="true">↗</span>
                 </a>
               ))}

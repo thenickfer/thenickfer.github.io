@@ -545,3 +545,10 @@
     }
   }
 }
+
+/* Native abbreviations: keep the tooltip, soften the default dotted underline. */
+abbr[title] {
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}

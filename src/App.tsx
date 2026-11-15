@@ -1,11 +1,15 @@
 import { lazy, Suspense } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
+import { PixelLoader } from './components/PixelLoader'
 import { HomePage } from './pages/HomePage'
+import { LinksPage } from './pages/LinksPage'
+import { NotFoundPage } from './pages/NotFoundPage'
 
 const CreatureFieldDemo = lazy(() => import('./pages/CreatureFieldDemo'))
 
 const SECRET_CREATURES_PATH = '/labs/creatures-q7x2'
+const CREATURE_FIELD_DEMO_PATH = '/__creature-field-demo'
 
 function isDirectSecretCreaturesPathname(): boolean {
   if (typeof window === 'undefined') return false
@@ -13,32 +17,41 @@ function isDirectSecretCreaturesPathname(): boolean {
   return normalized === SECRET_CREATURES_PATH
 }
 
-function NotFoundPage() {
-  return (
-    <main className="page-grid flex min-h-dvh items-center justify-center px-6 text-center">
-      <div>
-        <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-accent">Route not implemented</p>
-        <h1 className="text-5xl font-semibold text-text-primary">This page is still taking shape.</h1>
-        <a className="mt-8 inline-block rounded-md bg-accent px-5 py-3 font-medium text-surface-sunk transition-transform duration-100 hover:-translate-y-0.5" href="#/">
-          Return home
-        </a>
-      </div>
-    </main>
-  )
+function getDirectUnknownPathname(routerPathname: string, routerSearch: string): string | null {
+  if (typeof window === 'undefined') return null
+  const normalized = window.location.pathname.replace(/\/+$/, '') || '/'
+  if (normalized === '/' || normalized === '/index.html' || normalized === '/404.html') return null
+  if (normalized === SECRET_CREATURES_PATH) return null
+  const hash = window.location.hash
+  if (hash && hash !== '#' && !hash.startsWith('#/404')) {
+    return null
+  }
+  if (routerPathname !== '/' && routerPathname !== '/404') {
+    return null
+  }
+  return normalized + (routerSearch || window.location.search || '')
 }
 
 function App() {
+  const location = useLocation()
+
   if (isDirectSecretCreaturesPathname()) {
     return (
-      <Suspense fallback={null}>
+      <Suspense fallback={<PixelLoader variant="page" label="Loading page" />}>
         <CreatureFieldDemo />
       </Suspense>
     )
   }
 
+  const directUnknownPath = getDirectUnknownPathname(location.pathname, location.search)
+  if (directUnknownPath) {
+    return <NotFoundPage requestedPath={directUnknownPath} />
+  }
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/links" element={<LinksPage />} />
       <Route path="/about" element={<NotFoundPage />} />
       <Route path="/research" element={<NotFoundPage />} />
       <Route path="/projects" element={<NotFoundPage />} />
@@ -47,13 +60,21 @@ function App() {
       <Route
         path={SECRET_CREATURES_PATH}
         element={
-          <Suspense fallback={null}>
+          <Suspense fallback={<PixelLoader variant="page" label="Loading page" />}>
+            <CreatureFieldDemo />
+          </Suspense>
+        }
+      />
+      <Route
+        path={CREATURE_FIELD_DEMO_PATH}
+        element={
+          <Suspense fallback={<PixelLoader variant="page" label="Loading page" />}>
             <CreatureFieldDemo />
           </Suspense>
         }
       />
       <Route path="/404" element={<NotFoundPage />} />
-      <Route path="*" element={<Navigate to="/404" replace />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }

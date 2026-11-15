@@ -78,7 +78,7 @@ export function SiteNav() {
     <nav aria-label="Primary navigation" className="site-nav content-wrap">
       <a className="flex items-center gap-3 text-sm font-semibold tracking-wide text-text-primary" href="#/" aria-label="Home">
         <StarMark className="h-4 w-4 text-accent" />
-        <span>NCF / portfolio</span>
+        <span>NCF / main page</span>
       </a>
       <div className="site-nav-links">
         {navigation.map(navigationLink)}

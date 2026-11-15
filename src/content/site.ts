@@ -2,6 +2,8 @@ export type ContactLink = {
   label: string
   href: string
   priority?: 'primary' | 'default'
+  /** Another online profile that represents me. Rendered with rel="me". */
+  identity?: boolean
 }
 
 export type Organization = {
@@ -56,8 +58,8 @@ export const siteContent: SiteContent = {
   contacts: [
     { label: 'Academic email', href: 'mailto:nicolas.ferreira002@edu.pucrs.br', priority: 'primary' },
     { label: 'Professional email', href: 'mailto:nicolas.dcferreira@gmail.com' },
-    { label: 'GitHub', href: 'https://github.com/thenickfer' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/n%C3%ADcolas-ferreira-156116325/' },
+    { label: 'GitHub', href: 'https://github.com/thenickfer', identity: true },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/n%C3%ADcolas-ferreira-156116325/', identity: true },
   ],
   researchInterests: [
     'Systems',

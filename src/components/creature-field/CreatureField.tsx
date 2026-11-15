@@ -21,6 +21,7 @@ export type CreatureFieldProps = {
   cell?: number
   scale?: number
   avoid?: RefObject<HTMLElement | null>[]
+  avoidSelector?: string
   clickMode?: 'auto' | 'scatter'
   interactive?: boolean
   paused?: boolean
@@ -70,6 +71,7 @@ export function CreatureField({
   cell = 8,
   scale = 1,
   avoid,
+  avoidSelector,
   clickMode = 'auto',
   interactive = true,
   paused = false,
@@ -84,6 +86,7 @@ export function CreatureField({
   const [chosenSpecies, setChosenSpecies] = useState<SpeciesId | null>(null)
 
   const avoidRef = useRef(avoid)
+  const avoidSelectorRef = useRef(avoidSelector)
   const interactiveRef = useRef(interactive)
   const pausedRef = useRef(paused)
   const clickModeRef = useRef(clickMode)
@@ -91,11 +94,12 @@ export function CreatureField({
 
   useEffect(() => {
     avoidRef.current = avoid
+    avoidSelectorRef.current = avoidSelector
     interactiveRef.current = interactive
     pausedRef.current = paused
     clickModeRef.current = clickMode
     gridRef.current = grid
-  }, [avoid, interactive, paused, clickMode, grid])
+  }, [avoid, avoidSelector, interactive, paused, clickMode, grid])
 
   // Choose species on the client after mount (no hydration mismatch)
   useEffect(() => {
@@ -188,11 +192,28 @@ export function CreatureField({
 
     const measureAvoidRects = (canvasRect: DOMRect): AvoidRect[] => {
       const list = avoidRef.current
-      if (!list || list.length === 0) return []
+      const selector = avoidSelectorRef.current
+      const elements = new Set<Element>()
+      if (list) {
+        for (let i = 0; i < list.length; i++) {
+          const el = list[i]?.current
+          if (el) elements.add(el)
+        }
+      }
+      if (selector && typeof document !== 'undefined') {
+        try {
+          const matched = document.querySelectorAll(selector)
+          for (let i = 0; i < matched.length; i++) {
+            const el = matched[i]
+            if (el) elements.add(el)
+          }
+        } catch {
+          // ignore invalid CSS selector
+        }
+      }
+      if (elements.size === 0) return []
       const rects: AvoidRect[] = []
-      for (let i = 0; i < list.length; i++) {
-        const el = list[i]?.current
-        if (!el) continue
+      for (const el of elements) {
         const r = el.getBoundingClientRect()
         if (r.width <= 0 || r.height <= 0) continue
         rects.push({
@@ -355,7 +376,7 @@ export function CreatureField({
     // Keep avoid rects and canvas rect fresh on scroll
     const handleScroll = () => {
       cachedCanvasRect = canvas.getBoundingClientRect()
-      if (!avoidRef.current || avoidRef.current.length === 0) return
+      if ((!avoidRef.current || avoidRef.current.length === 0) && !avoidSelectorRef.current) return
       engine.setAvoidRects(measureAvoidRects(cachedCanvasRect))
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -480,6 +501,7 @@ export function CreatureField({
       data-species={chosenSpecies ?? 'initializing'}
       data-scale={clampScale(scale)}
       data-reduced-motion={reducedMotion ? 'true' : 'false'}
+      data-avoid-selector={avoidSelector}
       className={`pointer-events-none ${positionClass} -z-10 block h-full w-full select-none ${className}`.trim()}
     />
   )

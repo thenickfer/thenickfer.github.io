@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <meta name="description" content="404 — Page not found · Nícolas da Costa Ferreira" />
+    <meta name="theme-color" content="rgb(20 22 26)" />
+    <title>404 — Page not found · Nícolas da Costa Ferreira</title>
+    <script>
+      ;(function () {
+        var loc = window.location
+        var base = '/'
+        var searchParams = new URLSearchParams(loc.search || '')
+        var explicitPath = searchParams.get('path')
+        var requested = explicitPath
+          ? explicitPath
+          : loc.pathname === '/404.html'
+            ? '/404'
+            : (loc.pathname || '/') + (loc.search || '')
+        var targetHash =
+          loc.hash && loc.hash !== '#' && loc.hash !== '#/'
+            ? loc.hash
+            : '#/404?path=' + encodeURIComponent(requested)
+        loc.replace(base + targetHash)
+      })()
+    </script>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        background-color: var(--ds-color-background, rgb(20 22 26));
+        color: var(--ds-color-text-primary, rgb(236 232 221));
+        font-family: var(--ds-font-family-primary, sans-serif);
+      }
+      .fallback-404 {
+        display: flex;
+        min-height: 100dvh;
+        align-items: center;
+        justify-content: center;
+        padding: var(--ds-spacing-6, 1.5rem);
+      }
+      .fallback-404-card {
+        max-width: 34rem;
+        padding: var(--ds-spacing-6, 1.5rem);
+        border: var(--ds-border-width-default, 1px) solid var(--ds-color-border, rgb(236 232 221 / 0.14));
+        border-radius: var(--ds-radius-lg, 1rem);
+        background-color: var(--ds-color-surface, rgb(27 30 36));
+      }
+      .fallback-404-code {
+        margin: 0 0 var(--ds-spacing-2, 0.5rem) 0;
+        font-family: var(--ds-font-family-mono, monospace);
+        font-size: var(--ds-font-size-xl, 1.25rem);
+        color: var(--ds-color-oxide, rgb(233 125 74));
+      }
+      .fallback-404-link {
+        display: inline-flex;
+        min-height: 2.75rem;
+        min-width: 2.75rem;
+        align-items: center;
+        margin-top: var(--ds-spacing-4, 1rem);
+        padding: var(--ds-spacing-3, 0.75rem) var(--ds-spacing-6, 1.5rem);
+        border-radius: var(--ds-radius-md, 0.5rem);
+        background-color: var(--ds-color-accent, rgb(141 185 232));
+        color: var(--ds-color-ink, rgb(20 22 26));
+        font-weight: var(--ds-font-weight-medium, 500);
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <main class="fallback-404">
+        <section class="fallback-404-card" aria-labelledby="fallback-404-title">
+          <p class="fallback-404-code">404</p>
+          <h1 id="fallback-404-title">Page not found</h1>
+          <p>The requested page could not be found on this site.</p>
+          <a class="fallback-404-link" href="/#/">Back to main page</a>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

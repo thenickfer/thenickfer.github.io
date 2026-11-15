@@ -103,7 +103,27 @@ Apply these rules to every visual, UI or document you produce for Nícolas. Dark
 - Avoid: three-item lists used for rhythm, "not X but Y" reversals, "at the boundary between", "living space", "foundation", "built carefully", "I am passionate about", sentences held together with em dashes.
 - A section never restates the hero. Numbered eyebrows (01 / WORK) only when there are more than three sections.
 - Never invent facts, employers, projects, metrics or quotes. Use what is already on the page or ask Nícolas.
-- The Design check reports on copy: filler sections removed, headings plain, no banned patterns.
+- The Design check reports on copy: filler sections removed, headings plain, no banned patterns, abbreviations and identity links follow the Semantics rules.
+
+## Semantics
+### Abbreviations
+- Use the native `<abbr title="...">` element **only in pure body text** (prose paragraphs, descriptions, and summaries). The `title` holds the expansion and keeps the native tooltip.
+  - `<abbr title="Artificial Intelligence">AI</abbr>`, `<abbr title="Laboratório de Inovação em Software">LiS</abbr>`, `<abbr title="Error Correction Codes">ECC</abbr>`
+- **Avoid `<abbr>` outside pure prose**: never use it in heroes, headers, navigation bars, footers, headings (`<h1>`–`<h6>`), buttons, interactive links/cards, eyebrows, stamps, badges, or short monospace metadata labels.
+- Mark the first meaningful prose occurrence on each page. Mark later prose occurrences where it stays useful and natural.
+- Only use an expansion that is stated on the site or confirmed by Nícolas. Unknown or ambiguous terms stay unmarked and are not guessed. Open ones: NSESD, HP.
+- Do not wrap contractions, code identifiers, URLs, product names that are not abbreviations (DevOps), or text inside `alt`, `aria-label`, `<title>` or meta tags, where markup is not allowed.
+- Style: the default dotted underline, thinner and softened to 35% of the text color, no color change, no hover effect.
+- Implementation: add the term to the glossary in `src/lib/abbreviations.ts` and render pure prose through `<Abbreviated>` (`src/components/Abbr.tsx`). Use `<Abbr title>` for a one-off in body text. Never write an `<abbr>` without a title.
+- `npm run design:check` fails on: an `<abbr>` with a missing or empty title, a title that does not expand its text or differs from the glossary, a glossary entry without a real expansion, any `<abbr>` or `<Abbreviated>` placed inside heroes, headers, navs, footers, headings (`<h1>`–`<h6>`), buttons, links, or monospace uppercase UI labels, and an unwrapped glossary term inside pure prose JSX. Terms inside data strings (`src/content/site.ts`) are wrapped at render time, so new unknown terms are caught by the manual audit.
+- Manual audit, on every content change: read each page as rendered, check pure body prose for all-caps or mixed-case short terms (confirming expansions in the content or with Nícolas before adding to the glossary), confirm heroes/headers/footers/headings/chrome stay free of `<abbr>`, and hover each `<abbr>` in prose to read the tooltip.
+
+### Identity links
+- A link to another online profile or identity page that represents me carries `rel="me"` (IndieWeb): GitHub, LinkedIn and any other personal or professional profile. Not for project docs, institution sites, ordinary references, internal navigation or `mailto:` links.
+- Combine rel tokens, never overwrite them. A link that opens in a new tab keeps `noopener noreferrer` next to `me`.
+  - `<a href="https://github.com/thenickfer" target="_blank" rel="me noopener noreferrer">GitHub</a>`
+- Implementation: mark the contact with `identity: true` in `src/content/site.ts` and build `rel` with `buildRel` from `src/lib/links.ts` (`ExternalLink` takes an `identity` prop). A literal link to a profile uses the same component.
+- `npm run design:check` fails when a contact on github.com or linkedin.com lacks `identity: true`, when a link to one of my profiles has no `rel="me"` or `identity`, or when a link built from `contact.href` ignores `contact.identity`. `npm test` covers `buildRel` and the real GitHub and LinkedIn entries.
 
 ## Responsive
 - Mobile-first. Works from 320 to 2560 px wide, portrait and landscape. No horizontal scroll at any width.

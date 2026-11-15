@@ -27,6 +27,9 @@
   --ds-font-family-pixel: Silkscreen, 'Press Start 2P', monospace;
 
   /* Font sizes */
+  --ds-font-size-pixel-sm: 0.5rem;
+  --ds-font-size-pixel-md: 1rem;
+  --ds-font-size-pixel-lg: 1.5rem;
   --ds-font-size-xs: 0.75rem;
   --ds-font-size-sm: 0.875rem;
   --ds-font-size-md: 1rem;
