@@ -57,11 +57,17 @@ function configured(
   palette: readonly string[],
   options?: Record<string, unknown>,
 ): AsciiPieceConfig {
+  const sourceCols = source.meta.cols
+  const sourceRows = source.meta.rows
+  const cols = sourceCols * 2
+  const rows = sourceRows * 2
   const piece: Piece = {
     meta: {
       ...source.meta,
       name,
       note: description,
+      cols,
+      rows,
       fps: Math.min(source.meta.fps, 12),
       ground: asciiTokens.surfaceSunk,
       palette,
@@ -70,17 +76,29 @@ function configured(
     default: (overrides?: Record<string, unknown>) => {
       const frame = source.default(overrides)
       return (t, env) => {
-        const text = frame(t)
+        const sourceText = frame(t)
+        const sourceRowsText = sourceText.split('\n')
+        const output: string[] = []
         if (env?.color) {
-          let cell = 0
-          for (const character of text) {
-            if (character === '\n') continue
-            const rampIndex = ' .:-=+*#%@'.indexOf(character)
-            env.color[cell] = Math.max(0, Math.min(palette.length - 1, Math.round((rampIndex / 9) * (palette.length - 1))))
-            cell += 1
+          env.color.fill(0)
+        }
+        for (let sourceY = 0; sourceY < sourceRows; sourceY += 1) {
+          const sourceRow = sourceRowsText[sourceY] ?? ''
+          const expandedRow = Array.from({ length: cols }, (_, x) => sourceRow[Math.floor(x / 2)] ?? ' ').join('')
+          output.push(expandedRow, expandedRow)
+          if (env?.color) {
+            for (let sourceX = 0; sourceX < sourceCols; sourceX += 1) {
+              const rampIndex = ' .:-=+*#%@'.indexOf(sourceRow[sourceX] ?? ' ')
+              const color = Math.max(0, Math.min(palette.length - 1, Math.round((Math.max(0, rampIndex) / 9) * (palette.length - 1))))
+              const index = sourceY * 2 * cols + sourceX * 2
+              env.color[index] = color
+              env.color[index + 1] = color
+              env.color[index + cols] = color
+              env.color[index + cols + 1] = color
+            }
           }
         }
-        return text
+        return output.join('\n')
       }
     },
   }

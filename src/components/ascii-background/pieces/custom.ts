@@ -1,10 +1,10 @@
 import type { Frame, Piece } from 'ascii.rest'
+import { ramps, shadeChar } from 'ascii.rest/kit'
 
 import { asciiTokens } from '../tokens'
 
-const COLS = 160
-const ROWS = 90
-const RAMP = ' .:-=+*#%@'
+const COLS = 192
+const ROWS = 100
 
 function hash(x: number, y: number): number {
   let value = Math.imul(x | 0, 374761393) + Math.imul(y | 0, 668265263)
@@ -23,8 +23,7 @@ function frameFrom(
       let row = ''
       for (let x = 0; x < COLS; x += 1) {
         const cell = draw(x, y, t)
-        const glyphIndex = Math.max(0, Math.min(RAMP.length - 1, Math.round(cell.value * (RAMP.length - 1))))
-        row += RAMP[glyphIndex]
+        row += shadeChar(ramps.detailed, cell.value)
         if (env?.color) env.color[index] = Math.max(0, Math.min(palette.length - 1, cell.color))
         index += 1
       }

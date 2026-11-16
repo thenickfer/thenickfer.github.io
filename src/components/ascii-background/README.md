@@ -16,6 +16,8 @@
 
 The package also exposes kit recipes such as `plasma`, `aurora`, `galaxy`, `sea`, and `stars`; the published 0.4.0 package's existing pieces were preferred where their motion already matched the requested intent. Existing pieces emit glyph frames, and the collection adapter maps their restrained ramp to the configured palette.
 
+The adapter expands bundled library frames to a two-by-two cell grid so the characters are a little smaller at viewport scale without exceeding the 20,000-cell budget. Custom pieces use ascii.rest/kit's documented `ramps.detailed` luminance ramp and `shadeChar`; no undocumented character mode is assumed.
+
 ## Adding a piece
 
 1. Add a local module under `pieces/` implementing `Piece` from `ascii.rest`.
