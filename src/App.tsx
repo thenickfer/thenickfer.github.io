@@ -7,9 +7,11 @@ import { LinksPage } from './pages/LinksPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
 const CreatureFieldDemo = lazy(() => import('./pages/CreatureFieldDemo'))
+const AsciiBackgroundDemo = lazy(() => import('./pages/AsciiBackgroundDemo'))
 
 const SECRET_CREATURES_PATH = '/labs/creatures-q7x2'
 const CREATURE_FIELD_DEMO_PATH = '/__creature-field-demo'
+const ASCII_BACKGROUND_DEMO_PATH = '/__ascii-background-demo'
 
 function isDirectSecretCreaturesPathname(): boolean {
   if (typeof window === 'undefined') return false
@@ -70,6 +72,14 @@ function App() {
         element={
           <Suspense fallback={<PixelLoader variant="page" label="Loading page" />}>
             <CreatureFieldDemo />
+          </Suspense>
+        }
+      />
+      <Route
+        path={ASCII_BACKGROUND_DEMO_PATH}
+        element={
+          <Suspense fallback={<PixelLoader variant="page" label="Loading page" />}>
+            <AsciiBackgroundDemo />
           </Suspense>
         }
       />

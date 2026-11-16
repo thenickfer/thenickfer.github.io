@@ -19,7 +19,7 @@ async function files(path) {
 for (const path of (await Promise.all(scanRoots.map(files))).flat()) {
   if (/\.(gif|jpe?g|png|webp|woff2)$/i.test(path)) continue
   const content = await readFile(join(root, path), 'utf8')
-  if (hexPattern.test(content) && !path.endsWith('tokens.css') && !path.startsWith('src/assets/') && !path.startsWith('public/logos/')) failures.push(`${path}: raw hex color`)
+  if (hexPattern.test(content) && !path.endsWith('tokens.css') && !path.endsWith('ascii-background/tokens.ts') && !path.startsWith('src/assets/') && !path.startsWith('public/logos/')) failures.push(`${path}: raw hex color`)
   if (/transition\s*:\s*all\b/i.test(content)) failures.push(`${path}: transition: all`)
   if (!path.endsWith('.test.ts') && /\b(?:animate-spin|fa-spinner)\b|<Spinner\b/i.test(content)) {
     failures.push(`${path}: rogue generic spinner detected; use canonical PixelLoader`)

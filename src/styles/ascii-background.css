@@ -1,0 +1,103 @@
+.ascii-background {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  background: var(--ds-color-surface-sunk);
+  pointer-events: none;
+}
+
+.ascii-background__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  color: var(--ds-color-text-secondary);
+  font-family: var(--ds-font-family-mono);
+  image-rendering: pixelated;
+  opacity: 0.72;
+}
+
+.ascii-background__grain {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 128 128'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.35'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  opacity: 0.04;
+}
+
+.ascii-demo {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  background: var(--ds-color-surface-sunk);
+  padding: clamp(1rem, 4vw, 4rem);
+}
+
+.ascii-demo__plate {
+  width: min(100%, 56rem);
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-radius-lg);
+  background: color-mix(in srgb, var(--ds-color-background) 88%, transparent);
+  padding: clamp(1rem, 4vw, 2rem);
+  color: var(--ds-color-text-primary);
+}
+
+.ascii-demo__eyebrow {
+  margin: 0;
+  color: var(--ds-color-accent);
+  font-family: var(--ds-font-family-mono);
+  font-size: var(--ds-font-size-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ascii-demo h1 {
+  margin: 0.75rem 0 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: var(--ds-line-height-tight);
+}
+
+.ascii-demo p:not(.ascii-demo__eyebrow) {
+  max-width: 58ch;
+  color: var(--ds-color-text-secondary);
+}
+
+.ascii-demo__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-spacing-2);
+  margin-top: var(--ds-spacing-6);
+}
+
+.ascii-demo button {
+  min-height: 44px;
+  border: 1px solid var(--ds-color-border);
+  border-radius: var(--ds-radius-sm);
+  background: var(--ds-color-surface-raised);
+  color: var(--ds-color-text-primary);
+  cursor: pointer;
+  padding: var(--ds-spacing-2) var(--ds-spacing-3);
+  font-family: var(--ds-font-family-mono);
+  font-size: var(--ds-font-size-xs);
+}
+
+.ascii-demo button[aria-pressed='true'],
+.ascii-demo button:hover {
+  border-color: var(--ds-color-accent);
+  background: var(--ds-color-cobalt-deep);
+}
+
+.ascii-demo__cycle {
+  margin-top: var(--ds-spacing-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ascii-background__grain {
+    opacity: 0.03;
+  }
+}
