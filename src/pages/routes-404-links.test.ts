@@ -143,11 +143,17 @@ describe('Custom 404 page and GitHub Pages fallback routing', () => {
     assert.equal(direct404Html, '/#/404?path=%2F404')
   })
 
-  it('renders NotFoundPage for unknown client-side routes and /404 with a homepage link', () => {
+  it('renders NotFoundPage for unknown client-side routes and /404 with a homepage link', async () => {
+    const { ASCII_SCENERY_IDS } = await import('../components/ascii-background/config.ts')
     for (const missingRoute of ['/unknown-route', '/some-missing-page', '/404?path=%2Fmissing-direct']) {
       const html = renderAtRoute(missingRoute)
       assert.match(html, /data-testid="not-found-page"/, `Expected NotFoundPage for ${missingRoute}`)
-      assert.match(html, /data-ascii-piece="lorenz-butterfly"/)
+      const pieceMatch = html.match(/data-ascii-piece="([^"]+)"/)
+      assert.ok(pieceMatch?.[1], 'Expected data-ascii-piece attribute on 404 ASCII background')
+      assert.ok(
+        (ASCII_SCENERY_IDS as readonly string[]).includes(pieceMatch[1]),
+        `Unexpected 404 ASCII piece: ${pieceMatch[1]}`,
+      )
       assert.match(html, /class="ascii-background\s*"[^>]*aria-hidden="true"/)
       assert.match(html, /<canvas\b[^>]*class="ascii-background__canvas"/)
       assert.match(html, />404</)

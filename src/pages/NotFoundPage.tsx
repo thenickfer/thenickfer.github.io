@@ -6,7 +6,7 @@ import { siteContent } from '../content/site'
 import { navigateFromNonRootPathname } from '../lib/links'
 import '../styles/ascii-background.css'
 import '../styles/routes-404-links.css'
-import { useMemo } from 'react'
+import { useState } from 'react'
 import { ASCII_SCENERY_IDS } from '../components/ascii-background/config'
 
 export interface NotFoundPageProps {
@@ -62,14 +62,14 @@ function resolveRequestedPath(explicitPath?: string, routerPathname?: string, ro
 export function NotFoundPage({ requestedPath }: NotFoundPageProps) {
   const location = useLocation()
   const missingPath = resolveRequestedPath(requestedPath, location.pathname, location.search)
-  const ascii_piece = useMemo(() => {
+  const [asciiPiece] = useState(() => {
     const randomIndex = Math.floor(Math.random() * ASCII_SCENERY_IDS.length)
     return ASCII_SCENERY_IDS[randomIndex]
-  }, ASCII_SCENERY_IDS)
+  })
 
   return (
     <div className="page-grid not-found-shell" data-testid="not-found-page">
-      <AsciiBackground piece={ascii_piece}/>
+      <AsciiBackground piece={asciiPiece} />
 
       <header className="not-found-header">
         <Link
