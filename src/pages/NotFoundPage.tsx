@@ -1,9 +1,13 @@
 import { Link, useLocation } from 'react-router-dom'
 
+import { AsciiBackground } from '../components/ascii-background/AsciiBackground'
 import { StarMark } from '../components/StarMark'
 import { siteContent } from '../content/site'
 import { navigateFromNonRootPathname } from '../lib/links'
+import '../styles/ascii-background.css'
 import '../styles/routes-404-links.css'
+import { useMemo } from 'react'
+import { ASCII_SCENERY_IDS } from '../components/ascii-background/config'
 
 export interface NotFoundPageProps {
   /** Optional explicit missing path override for testing or direct embeds. */
@@ -58,9 +62,15 @@ function resolveRequestedPath(explicitPath?: string, routerPathname?: string, ro
 export function NotFoundPage({ requestedPath }: NotFoundPageProps) {
   const location = useLocation()
   const missingPath = resolveRequestedPath(requestedPath, location.pathname, location.search)
+  const ascii_piece = useMemo(() => {
+    const randomIndex = Math.floor(Math.random() * ASCII_SCENERY_IDS.length)
+    return ASCII_SCENERY_IDS[randomIndex]
+  }, ASCII_SCENERY_IDS)
 
   return (
     <div className="page-grid not-found-shell" data-testid="not-found-page">
+      <AsciiBackground piece={ascii_piece}/>
+
       <header className="not-found-header">
         <Link
           className="cobalt-brand-link"
@@ -80,7 +90,7 @@ export function NotFoundPage({ requestedPath }: NotFoundPageProps) {
         </Link>
       </header>
 
-      <main className="my-auto py-8">
+      <main className="not-found-main my-auto py-8">
         <section aria-labelledby="not-found-heading" className="plate not-found-card motion-enter">
           <div className="not-found-stamp-row">
             <span className="not-found-stamp">

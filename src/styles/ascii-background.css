@@ -13,6 +13,7 @@
   height: 100%;
   min-width: 100%;
   min-height: 100%;
+  object-fit: cover;
   color: var(--ds-color-text-secondary);
   font-family: var(--ds-font-family-mono);
   image-rendering: pixelated;

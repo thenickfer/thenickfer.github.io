@@ -17,6 +17,7 @@ export const designTokens = {
     fontFamilyPrimary: 'var(--ds-font-family-primary)',
     fontFamilyMono: 'var(--ds-font-family-mono)',
     fontFamilyDisplay: 'var(--ds-font-family-display)',
+    fontFamilyPixelJa: 'var(--ds-font-family-pixel-ja)',
     fontSize: {
       pixelSm: 'var(--ds-font-size-pixel-sm)',
       pixelMd: 'var(--ds-font-size-pixel-md)',

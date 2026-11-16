@@ -51,7 +51,7 @@ function piece(name: string, note: string, palette: readonly string[], frame: Fr
   }
 }
 
-const starryPalette = [asciiTokens.surface, asciiTokens.muted, asciiTokens.text, asciiTokens.cobaltDeep, asciiTokens.oxide]
+const starryPalette = [asciiTokens.surface, asciiTokens.cobaltDeep, asciiTokens.text, asciiTokens.cobalt, asciiTokens.violet]
 export const starryRidge = piece(
   'starry ridge',
   'a sparse star field above a distant irregular ridge',
@@ -100,18 +100,18 @@ export const briansBrain = piece(
   }, brainPalette),
 )
 
-const orbitPalette = [asciiTokens.surfaceSunk, asciiTokens.cobaltDeep, asciiTokens.cobalt, asciiTokens.cobaltLight, asciiTokens.violet]
-export const edgeOrbit = piece(
-  'edge orbit',
-  'quiet curved particle paths around the viewport edges',
-  orbitPalette,
-  frameFrom((x, y, t) => {
-    const nx = x / COLS
-    const ny = y / ROWS
-    const edgeDistance = Math.min(nx, 1 - nx, ny, 1 - ny)
-    const path = Math.sin((nx * 1.7 + ny * 2.4) * Math.PI * 3 - t * 0.35) * 0.5 + 0.5
-    const edge = Math.max(0, 1 - edgeDistance * 18)
-    const particle = path > 0.93 && edge > 0.2
-    return { value: particle ? 0.75 : edge * 0.12, color: particle ? 2 + Math.floor(path * 2) : 1 }
-  }, orbitPalette),
-)
+// const orbitPalette = [asciiTokens.surfaceSunk, asciiTokens.cream, asciiTokens.violet, asciiTokens.oxide, asciiTokens.cobalt]
+// export const edgeOrbit = piece(
+//   'edge orbit',
+//   'quiet curved particle paths around the viewport edges',
+//   orbitPalette,
+//   frameFrom((x, y, t) => {
+//     const nx = x / COLS
+//     const ny = y / ROWS
+//     const edgeDistance = Math.min(nx, 1 - nx, ny, 1 - ny)
+//     const path = Math.sin((nx * 1.7 + ny * 2.4) * Math.PI * 3 - t * 0.35) * 0.5 + 0.5
+//     const edge = Math.max(0, 1 - edgeDistance * 18)
+//     const particle = path > 0.93 && edge > 0.2
+//     return { value: particle ? 0.75 : edge * 0.12, color: particle ? 2 + Math.floor(path * 2) : 1 }
+//   }, orbitPalette),
+// )

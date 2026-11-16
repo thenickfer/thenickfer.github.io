@@ -147,6 +147,9 @@ describe('Custom 404 page and GitHub Pages fallback routing', () => {
     for (const missingRoute of ['/unknown-route', '/some-missing-page', '/404?path=%2Fmissing-direct']) {
       const html = renderAtRoute(missingRoute)
       assert.match(html, /data-testid="not-found-page"/, `Expected NotFoundPage for ${missingRoute}`)
+      assert.match(html, /data-ascii-piece="lorenz-butterfly"/)
+      assert.match(html, /class="ascii-background\s*"[^>]*aria-hidden="true"/)
+      assert.match(html, /<canvas\b[^>]*class="ascii-background__canvas"/)
       assert.match(html, />404</)
       assert.match(html, /Page not found/)
       assert.match(html, /data-testid="not-found-home-link"/)

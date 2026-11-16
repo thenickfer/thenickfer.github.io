@@ -20,11 +20,36 @@
   --ds-color-transparent: #00000000;
 
   /* Typography */
-  --ds-font-family-primary: 'Founders Grotesk Text', 'Founders Grotesk', Arial, sans-serif;
-  --ds-font-family-mono: 'Paper Mono', 'Berkeley Mono', ui-monospace, monospace;
-  --ds-font-family-display: 'ABC Arizona', Canela, 'Instrument Serif', Georgia, serif;
-  --ds-font-family-editorial: Newsreader, Georgia, serif;
-  --ds-font-family-pixel: Silkscreen, 'Press Start 2P', monospace;
+  --ds-font-family-primary:
+    "Founders Grotesk Text",
+    "Founders Grotesk",
+    "IBM Plex Sans",
+    Arial,
+    sans-serif;
+  --ds-font-family-mono:
+    "Paper Mono",
+    "Berkeley Mono",
+    "IBM Plex Mono",
+    ui-monospace,
+    monospace;
+  --ds-font-family-display:
+    "ABC Arizona",
+    Canela,
+    "Instrument Serif",
+    Georgia,
+    serif;
+  --ds-font-family-editorial:
+    Newsreader,
+    Georgia,
+    serif;
+  --ds-font-family-pixel:
+    Silkscreen,
+    "Press Start 2P",
+    monospace;
+  --ds-font-family-pixel-ja:
+    "DotGothic16",
+    "Noto Sans JP",
+    sans-serif;
 
   /* Font sizes */
   --ds-font-size-pixel-sm: 0.5rem;

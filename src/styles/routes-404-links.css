@@ -8,11 +8,18 @@
   min-height: 100dvh;
   flex-direction: column;
   justify-content: space-between;
+  overflow-x: clip;
   padding: max(var(--ds-spacing-6), env(safe-area-inset-top))
     max(var(--ds-spacing-4), env(safe-area-inset-right))
     max(var(--ds-spacing-6), env(safe-area-inset-bottom))
     max(var(--ds-spacing-4), env(safe-area-inset-left));
   background-color: var(--ds-color-background);
+}
+
+.not-found-header,
+.not-found-main {
+  position: relative;
+  z-index: 1;
 }
 
 .not-found-header,

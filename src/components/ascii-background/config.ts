@@ -1,30 +1,36 @@
 import type { Piece } from 'ascii.rest'
 
 import * as aurora from 'ascii.rest/pieces/aurora'
-import * as contourMap from 'ascii.rest/pieces/contour-map'
 import * as galaxy from 'ascii.rest/pieces/galaxy'
 import * as lorenz from 'ascii.rest/pieces/lorenz'
 import * as plasma from 'ascii.rest/pieces/plasma'
-
+import * as oceanSunset from  'ascii.rest/pieces/ocean-sunset'
+import * as desertNight from  'ascii.rest/pieces/desert-night'
+import * as auroraFjord from  'ascii.rest/pieces/aurora-fjord'
+import * as alpineDawn from 'ascii.rest/pieces/alpine-dawn'
+import * as kyotoDusk from 'ascii.rest/pieces/kyoto-dusk'
 import {
-  edgeOrbit,
   briansBrain,
   solarCorona,
   starryRidge,
 } from './pieces/custom'
 import { asciiTokens } from './tokens'
 
+
 export type AsciiPieceId =
   | 'starry-ridge'
   | 'thermal-plasma'
   | 'aurora-drift'
-  | 'deep-ocean'
+  | 'galaxy'
   | 'nebula-clouds'
-  | 'topographic-flow'
   | 'solar-corona'
   | 'brians-brain'
   | 'lorenz-butterfly'
-  | 'edge-orbit'
+  | 'aurora-fjord'
+  | 'ocean-sunset'
+  | 'desert-night'
+  | 'alpine-dawn'
+  | 'kyoto-dusk'
 
 export interface AsciiPieceConfig {
   label: string
@@ -37,6 +43,7 @@ export interface AsciiPieceConfig {
 const cold = [
   asciiTokens.surfaceSunk,
   asciiTokens.cobaltDeep,
+  asciiTokens.violet,
   asciiTokens.cobalt,
   asciiTokens.cobaltLight,
 ]
@@ -129,10 +136,10 @@ export const ASCII_PIECES: Record<AsciiPieceId, AsciiPieceConfig> = {
     [asciiTokens.surfaceSunk, asciiTokens.cobaltDeep, asciiTokens.cobalt, asciiTokens.cobaltLight, asciiTokens.violet],
     { fps: 12 },
   ),
-  'deep-ocean': configured(
-    'deep ocean',
-    'Deep ocean',
-    'slow currents and dim drifting particles',
+  'galaxy': configured(
+    'galaxy',
+    'Galaxy',
+    'dim drifting particles',
     galaxy,
     cold,
     { fps: 10 },
@@ -143,14 +150,6 @@ export const ASCII_PIECES: Record<AsciiPieceId, AsciiPieceConfig> = {
     'slowly evolving dust and energy clouds',
     galaxy,
     [asciiTokens.surfaceSunk, asciiTokens.cobaltDeep, asciiTokens.violet, asciiTokens.cobaltLight],
-    { fps: 10 },
-  ),
-  'topographic-flow': configured(
-    'topographic flow',
-    'Topographic flow',
-    'animated contour lines on a quiet surface',
-    contourMap,
-    [asciiTokens.surface, asciiTokens.cobalt, asciiTokens.cobaltLight],
     { fps: 10 },
   ),
   'solar-corona': {
@@ -173,12 +172,37 @@ export const ASCII_PIECES: Record<AsciiPieceId, AsciiPieceConfig> = {
     [asciiTokens.cobaltDeep, asciiTokens.cobalt, asciiTokens.cobaltLight, asciiTokens.violet],
     { fps: 12 },
   ),
-  'edge-orbit': {
-    label: 'Edge orbit',
-    description: 'quiet curved particle paths around the viewport edges',
-    piece: edgeOrbit,
-    palette: edgeOrbit.meta.palette ?? [],
+  'ocean-sunset': {
+    label: 'Ocean Sunset',
+    description: 'the sun sets past a pine headland, lit cloud, glitter on rolling sea',
+    piece: oceanSunset,
+    palette: [],
+  },
+  'desert-night': {
+    label: 'Desert Night',
+    description: 'the milky way over a lone acacia on moonless dunes, meteors falling',
+    piece: desertNight,
+    palette: [],
+  },
+  'aurora-fjord': {
+    label: 'Aurora Fjord',
+    description: 'aurora curtains rippling over a still fjord, a cabin lit on the shore',
+    piece: auroraFjord,
+    palette: [],
+  },
+  'alpine-dawn': {
+    label: 'Alpine Dawn',
+    description: 'snow peaks catching first light above a still, misty mountain lake',
+    piece: alpineDawn,
+    palette: [],
+  },
+  'kyoto-dusk': {
+    label: 'Kyoto Dusk',
+    description: 'a pagoda at dusk behind a cherry tree lit by a stone lantern',
+    piece: kyotoDusk,
+    palette: [],
   },
 }
 
 export const ASCII_PIECE_IDS = Object.keys(ASCII_PIECES) as AsciiPieceId[]
+export const ASCII_SCENERY_IDS = [ 'ocean-sunset', 'desert-night','aurora-fjord', 'alpine-dawn', 'kyoto-dusk' ] as AsciiPieceId[]
