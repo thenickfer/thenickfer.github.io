@@ -82,7 +82,7 @@ export const siteContent: SiteContent = {
       degree: 'BSc in Computer Science',
       status: 'In progress',
       period: 'Expected graduation: December 2027',
-      gpa: '9.1/10',
+      gpa: '9.3/10',
     },
   ],
   experienceResearch: [
